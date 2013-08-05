@@ -49,12 +49,13 @@ class PlatformUiGrailsPlugin {
     def organization = [name: "Grailsrocks", url: "http://grailsrocks.com/"]
 
     def developers = [
-        [name: "Marc Palmer", email: "marc@grailsrocks.com"]
+        [name: "Marc Palmer", email: "marc@grailsrocks.com"],
+        [name: "Dean Del Ponte", email: "dean.delponte@gmail.com"]
     ]
 
     def issueManagement = [ system: "JIRA", url: "http://jira.grails.org/browse/GPPLATUI" ]
 
-    def scm = [url: "https://github.com/Grailsrocks/grails-platform-ui"]
+    def scm = [url: "https://github.com/MerryCoders/grails-platform-ui"]
 
     /**
      * This happens all the time, but dWWD may not have run if we're in a WAR
