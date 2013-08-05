@@ -5,9 +5,9 @@ Using the Resources plugin, Themes simply define Resource modules with the follo
 {docx}
     // Global resources for all layouts
     'theme.YourThemeName' {
-        
+
     }
-    
+
     // Per-layout resources, optional
     'theme.YourThemeName.main' {
         // resources here

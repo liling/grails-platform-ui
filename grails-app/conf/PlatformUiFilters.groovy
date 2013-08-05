@@ -29,8 +29,8 @@ class PlatformUiFilters {
                 }
             }
         }
-        
-        if (Environment.current == Environment.DEVELOPMENT) {
+
+        if (Environment.isDevelopmentMode()) {
             'platformUiDev'(uri:'/platform/ui/**'){
                 before = {
                     def UA = request.getHeader('User-Agent')
@@ -44,7 +44,7 @@ class PlatformUiFilters {
                         redirect(mapping:'platformUiFancy', action:actionName, id:params.id)
                     }
                 }
-            }   
+            }
         }
     }
 }

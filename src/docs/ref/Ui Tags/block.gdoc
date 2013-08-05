@@ -14,7 +14,7 @@ h2. Example
 </ui:block>
 {docx}
 
-The body is rendered as the body of the block section. 
+The body is rendered as the body of the block section.
 
 h2. Attributes
 

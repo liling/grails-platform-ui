@@ -16,18 +16,18 @@
  */
 package org.grails.plugin.platform.ui
 
-import org.slf4j.LoggerFactory
-
 import org.codehaus.groovy.grails.plugins.GrailsPlugin
 import org.grails.plugin.platform.views.ViewFinder
 import org.grails.plugin.platform.views.ViewInfo
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.core.io.Resource
 
 class UISetDefinition {
-    final log = LoggerFactory.getLogger(UISetDefinition)
+    final Logger log = LoggerFactory.getLogger(UISetDefinition)
 
     String name
-    
+
     GrailsPlugin definingPlugin
 
     private Map<String, ViewInfo> layoutPaths = [:]
@@ -38,10 +38,10 @@ class UISetDefinition {
         new ViewInfo(
             owner:name,
             name:fn-"_",
-            plugin:plugin?.name, 
+            plugin:plugin?.name,
             path:viewFolder + '/' + fn)
     }
-    
+
     private resolveViews(ViewFinder finder, viewFolder) {
         if (log.debugEnabled) {
             log.debug "Resolving UI Set [$name] views in folder [$viewFolder]"
@@ -49,7 +49,7 @@ class UISetDefinition {
         // App trumps plugin always & can add views missing from ui plugin
         def appViews = finder.listAppViewsAt(viewFolder)
 
-        List<Resource> pluginViews = definingPlugin ? 
+        List<Resource> pluginViews = definingPlugin ?
           finder.listPluginViewsAt(definingPlugin, viewFolder) :
           Collections.EMPTY_LIST
 
@@ -69,14 +69,14 @@ class UISetDefinition {
 
         return mergedViews
     }
-    
+
     void resolve(grailsViewFinder) {
         if (log.debugEnabled) {
             log.debug "Loading UI Set view definitions for set [$name]"
         }
         layoutPaths.clear()
 
-        def viewFolder = UISets.UI_TEMPLATES_PREFIX+'/'+name
+        def viewFolder = UISets.UI_TEMPLATES_PREFIX + '/' + name
         for (p in resolveViews(grailsViewFinder, viewFolder)) {
             if (log.debugEnabled) {
                 log.debug "UI view [$p.path] supplied by plugin [${p.plugin}]"
@@ -87,8 +87,8 @@ class UISetDefinition {
         if (log.debugEnabled) {
             log.debug "UI templates: ${layoutPaths}"
         }
-    }    
-    
+    }
+
     ViewInfo getLayoutForTag(String tagName) {
         def v = layoutPaths[tagName]
         if (log.debugEnabled) {

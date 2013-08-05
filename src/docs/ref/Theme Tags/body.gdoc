@@ -4,7 +4,7 @@ h2. Purpose
 
 Defines the @<body>@ of a Theme layout.
 
-This is a shortcut for rendering the @<body>@ tag of a page including any Sitemesh attributes to decorate the body with, and will also 
+This is a shortcut for rendering the @<body>@ tag of a page including any Sitemesh attributes to decorate the body with, and will also
 automatically call Resources <r:layoutResources/> for the "defer" disposition.
 
 Inside the body your theme layout will typically add some structural markup and use @<theme:layoutZone>@ to render the various content zones inside your markup.

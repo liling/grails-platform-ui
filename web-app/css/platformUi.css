@@ -1,10 +1,9 @@
-
 #themeselecta {
-    position: fixed; 
-    padding: 8px; 
-    right: 0; 
-    bottom: 0; 
-    background-color: #eee; 
+    position: fixed;
+    padding: 8px;
+    right: 0;
+    bottom: 0;
+    background-color: #eee;
     z-index:10000000;
     font-family: Helvetica, Sans Serif;
     font-size: 14px;

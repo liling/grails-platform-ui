@@ -23,7 +23,7 @@ h2. Attributes
 
 {table}
 *Name* | *Required?* | *Description*
-kind | No | The kind of button to render - which HTML markup to use. One of 'button', 'submit' or 'anchor'. Defaults to 'button'. 
+kind | No | The kind of button to render - which HTML markup to use. One of 'button', 'submit' or 'anchor'. Defaults to 'button'.
 mode | No | The mode of the button - affects the visual cues given to the user. One of 'danger', 'primary', 'secondary' or 'cancel'. Other values can be used, if the UI set and theme you are using supports them.
 disabled | No | Set to true to show the button as disabled.
 {table}

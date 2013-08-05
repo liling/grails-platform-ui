@@ -16,26 +16,22 @@
  */
 package org.grails.plugin.platform
 
-import org.codehaus.groovy.grails.plugins.web.taglib.ApplicationTagLib
-
-import com.opensymphony.module.sitemesh.RequestConstants
-
-import org.grails.plugin.platform.util.TagLibUtils
-import org.grails.plugin.platform.themes.Themes
 import org.codehaus.groovy.grails.web.sitemesh.GSPSitemeshPage
+import org.codehaus.groovy.grails.web.sitemesh.GrailsPageFilter
+import org.grails.plugin.platform.themes.Themes
 
 class ThemeTagLib {
     static namespace = "theme"
 
-    static REQ_ATTR_ZONE_LIST = 'zone.list'
-    static REQ_ATTR_TITLE = 'title'
-    
+    static final String REQ_ATTR_ZONE_LIST = 'zone.list'
+    static final String REQ_ATTR_TITLE = 'title'
+
     static returnObjectForTags = ['name', 'current', 'listThemes']
 
     def grailsThemes
     def grailsViewFinder
     def servletContext
-    
+
     def layout = { attrs ->
         if (log.debugEnabled) {
             log.debug "Setting page's theme layout: ${attrs}"
@@ -47,21 +43,20 @@ class ThemeTagLib {
         def layoutName = grailsThemes.getRequestSitemeshLayout(request)
         out << sitemesh.captureMeta(gsp_sm_xmlClosingForEmptyTag:"/", name:"layout",content:layoutName)
     }
-    
+
     protected getPage() {
-        return request[org.codehaus.groovy.grails.web.sitemesh.GrailsPageFilter.GSP_SITEMESH_PAGE]
+        return request[GrailsPageFilter.GSP_SITEMESH_PAGE]
     }
-    
+
     private boolean isZoneDefined(id, boolean includeImplicitBody = false) {
         def zones = pluginRequestAttributes[REQ_ATTR_ZONE_LIST]
         if (zones?.contains(id)) {
             return true
-        } else if (includeImplicitBody && (id == 'body')) {
-            def htmlPage = getPage()
-            return htmlPage.getContentBuffer('page.body') 
-        } else {
-            return false
         }
+        if (includeImplicitBody && (id == 'body')) {
+            return getPage().getContentBuffer('page.body')
+        }
+        return false
     }
 
     private void doDefineZone(id) {
@@ -71,10 +66,10 @@ class ThemeTagLib {
             s.add(id)
             pluginRequestAttributes[REQ_ATTR_ZONE_LIST] = s
             return
-        } else {
-            if (!zones.contains(id)) {
-                pluginRequestAttributes[REQ_ATTR_ZONE_LIST] << id
-            }
+        }
+
+        if (!zones.contains(id)) {
+            pluginRequestAttributes[REQ_ATTR_ZONE_LIST] << id
         }
     }
 
@@ -89,11 +84,11 @@ class ThemeTagLib {
         }
         grailsThemes.setRequestTheme(request, name)
     }
-    
+
     def zone = { attrs, tagBody ->
         def id = attrs.name ?: 'body'
         doDefineZone(id)
-    
+
         def htmlPage = getPage()
         if(!(htmlPage instanceof GSPSitemeshPage)) {
             throwTagError("Tag [theme:zone] requires 'grails.views.gsp.sitemesh.preprocess = true' in Config")
@@ -106,13 +101,13 @@ class ThemeTagLib {
     private boolean isDebugMode() {
         pluginRequestAttributes['theme.debug.mode']
     }
-    
+
     def ifZoneContent = { attrs, tagBody ->
         if (isZoneDefined(attrs.name, true)) {
             out << tagBody()
         }
     }
-    
+
     def ifNoZoneContent = { attrs, tagBody ->
         if (!isZoneDefined(attrs.name, true)) {
             out << tagBody()
@@ -128,7 +123,7 @@ class ThemeTagLib {
      * 2. A check is made for a GSP template in the application at the path /_theme_templates/_<name>.gsp
      * 3. Failing (1) and (2), the body is rendered, assumed to contain theme's default sample content
      */
-    def layoutZone = { attrs -> 
+    def layoutZone = { attrs ->
         mustBeInALayout('layoutZone')
 
         def id = attrs.name
@@ -146,16 +141,16 @@ class ThemeTagLib {
                 out << g.layoutBody()
                 return
             }
-            
+
             // Location of app's standard content for theme zones
             def templatePath = "/_themes/zones/${id}"
-            
+
             // First see if the application provides default content for this zone (e.g. a footer or social panel)
             if (grailsViewFinder.templateExists(templatePath)) {
                 if (debugMode) {
                     out << "<!-- Content defined by Theme's default template (${templatePath}) for this zone ${id} -->\n"
                 }
-                out << g.render(template:templatePath) 
+                out << g.render(template:templatePath)
             } else {
                 if (debugMode) {
                     out << "<!-- Content defined by defaultContent tag for this zone ${id} -->\n"
@@ -178,21 +173,21 @@ class ThemeTagLib {
             out << "<!-- END Content from theme zone ${id} -->\n"
         }
     }
-    
+
     def name = { attrs ->
         out << grailsThemes.getRequestTheme(request).name
     }
-    
+
     def listThemes = { attrs ->
         grailsThemes.availableThemes
     }
-    
+
     void mustBeInALayout(tagName) {
         if (!getPage()) {
-            throwTagError "Tag [theme:$tagName] can only be used inside a Sitemesh layout" 
+            throwTagError "Tag [theme:$tagName] can only be used inside a Sitemesh layout"
         }
     }
-    
+
     def ifLayoutIs = { attrs, tagBody ->
         if (!attrs.name) {
             throwTagError "Attribute [name] is required on the ifLayoutIs tag"
@@ -202,7 +197,7 @@ class ThemeTagLib {
             out << tagBody()
         }
     }
-    
+
     def ifLayoutIsNot = { attrs, tagBody ->
         if (!attrs.name) {
             throwTagError "Attribute [name] is required on the ifLayoutIsNot tag"
@@ -212,7 +207,7 @@ class ThemeTagLib {
             out << tagBody()
         }
     }
-    
+
     def ifThemeIs = { attrs, tagBody ->
         if (!attrs.name) {
             throwTagError "Attribute [name] is required on the ifThemeIs tag"
@@ -222,7 +217,7 @@ class ThemeTagLib {
             out << tagBody()
         }
     }
-    
+
     def ifThemeIsNot = { attrs, tagBody ->
         if (!attrs.name) {
             throwTagError "Attribute [name] is required on the ifThemeIsNot tag"
@@ -232,7 +227,7 @@ class ThemeTagLib {
             out << tagBody()
         }
     }
-    
+
     def resources = { attrs ->
         if (log.debugEnabled) {
             log.debug "theme:resources Writing out resources"
@@ -245,11 +240,11 @@ class ThemeTagLib {
         // Write out the resources for the UI Set we are using, otherwise it will be too late if the lazy init does it in body
         out << ui.resources()
     }
-    
+
     def current = { attrs ->
         return grailsThemes.getRequestTheme(request)
     }
-    
+
     // @todo move this to TagLibUtils and use messageSource
     protected getMessageOrBody(Map attrs, Closure tagBody) {
         def textCode = attrs.remove('text')
@@ -261,25 +256,25 @@ class ThemeTagLib {
         def v = textFromCode ?: tagBody()
         return v
     }
-    
+
     // @todo Move to platform-core?
     /**
-     * Set the title of the page with i18n support, can be called in a GSP Page or a Layout. 
+     * Set the title of the page with i18n support, can be called in a GSP Page or a Layout.
      */
     def title = { attrs, tagBody ->
         // @todo store just the args + body text so that if it is i18n we can resolve SEO title string by convention
         def text = getMessageOrBody(attrs, tagBody)
         pluginRequestAttributes[ThemeTagLib.REQ_ATTR_TITLE] = text
     }
-    
+
     /**
-     * Render the page title in the content 
+     * Render the page title in the content
      */
     def layoutTitle = { attrs ->
-        out << ui.h1(Collections.EMPTY_MAP, 
+        out << ui.h1(Collections.EMPTY_MAP,
                 pluginRequestAttributes[ThemeTagLib.REQ_ATTR_TITLE] ?: g.layoutTitle(default:'Untitled') )
     }
-    
+
     /**
      * Render the page title in the head section
      */
@@ -290,7 +285,7 @@ class ThemeTagLib {
         out << title
         out << '</title>\n'
     }
-    
+
     def head = { attrs, tagBody ->
         mustBeInALayout('head')
 
@@ -302,7 +297,7 @@ class ThemeTagLib {
 
         def resourceLinks = r.layoutResources()
         out << resourceLinks
-        
+
         out << """</head>"""
     }
 
@@ -328,7 +323,7 @@ class ThemeTagLib {
             out << g.layoutBody()
         }
         out << tagBody()
-        out << r.layoutResources() 
+        out << r.layoutResources()
         out << """</body>"""
     }
 
@@ -340,7 +335,7 @@ class ThemeTagLib {
         out << g.render(template:templateView.path, plugin:templateView.plugin)
     }
 
-    def defaultContent = { attrs -> 
+    def defaultContent = { attrs ->
         if (!attrs.zone) {
             throwTagError "The attribute 'zone' is required to denote the zone for which default content is required"
         }
@@ -349,7 +344,7 @@ class ThemeTagLib {
             if (log.debugEnabled) {
                 log.debug "Rendering default content for zone [$attrs.zone] using view [${view.path} (plugin: ${view.plugin})]"
             }
-            out << g.render(template:view.path, plugin:view.plugin) 
+            out << g.render(template:view.path, plugin:view.plugin)
         } else {
             if (log.debugEnabled) {
                 log.debug "Rendering default inline content for zone [$attrs.zone]"
@@ -358,10 +353,8 @@ class ThemeTagLib {
             out << p.dummyText(size:1)
         }
     }
-    
+
     def debugMode = { attrs ->
         pluginRequestAttributes['theme.debug.mode'] = true
     }
-    
-
 }

@@ -1,4 +1,4 @@
-The UI API provides a set of tags for common UI elements, without tieing an application to any specific CSS or JavaScript library. 
+The UI API provides a set of tags for common UI elements, without tieing an application to any specific CSS or JavaScript library.
 
 The UI tags have implementations that come from a "UI Set" which is a convention-based collection of GSP templates.
 

@@ -1,3 +1,7 @@
 .DS_Store
 plugin.xml
 target/
+*.log
+grails-platform-ui-*.zip
+web-app/WEB-INF
+.settings

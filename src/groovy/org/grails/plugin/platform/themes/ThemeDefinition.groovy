@@ -16,19 +16,20 @@
  */
 package org.grails.plugin.platform.themes
 
-import org.slf4j.LoggerFactory
 import org.codehaus.groovy.grails.plugins.GrailsPlugin
-import org.grails.plugin.platform.views.ViewFinder
 import org.grails.plugin.platform.ui.UISetDefinition
+import org.grails.plugin.platform.views.ViewFinder
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 class ThemeDefinition {
-    final log = LoggerFactory.getLogger(ThemeDefinition)
+    final Logger log = LoggerFactory.getLogger(ThemeDefinition)
 
-    static THEME_LAYOUTS_FOLDER = 'themes'
-    static THEME_LAYOUTS_PREFIX = '/layouts/'+THEME_LAYOUTS_FOLDER+'/'
-    static THEME_TEMPLATES_PREFIX = '/_themes/'
-    static UI_TEMPLATES_PREFIX = '/ui'
-    static TEST_TEMPLATES_PREFIX = '/test'
+    static final String THEME_LAYOUTS_FOLDER = 'themes'
+    static final String THEME_LAYOUTS_PREFIX = '/layouts/' + THEME_LAYOUTS_FOLDER + '/'
+    static final String THEME_TEMPLATES_PREFIX = '/_themes/'
+    static final String UI_TEMPLATES_PREFIX = '/ui'
+    static final String TEST_TEMPLATES_PREFIX = '/test'
 
     String name
     GrailsPlugin definingPlugin
@@ -49,7 +50,7 @@ class ThemeDefinition {
         // App trumps plugin always & can add views missing from theme plugin
         def appViews = finder.listAppViewsAt(viewFolder)
 
-        def pluginViews = definingPlugin ? 
+        def pluginViews = definingPlugin ?
             finder.listPluginViewsAt(definingPlugin, viewFolder) :
             Collections.EMPTY_LIST
 
@@ -83,16 +84,16 @@ class ThemeDefinition {
         }
 
         layoutNames = Collections.unmodifiableList(layoutPaths.keySet().sort())
-        
+
         if (log.debugEnabled) {
             log.debug "Theme [${name}] layouts: ${layoutPaths}"
         }
-        
+
         def missingLayouts = Themes.CORE_LAYOUTS - layoutNames
         if (missingLayouts) {
             log.warn "Theme [${name}] is missing core layouts: ${missingLayouts} - things will look bad if your app or plugins use them"
         }
-        
+
         overridingUISet = new UISetDefinition(name:'theme.ui.set.'+name, definingPlugin:definingPlugin)
         overridingUISet.resolve(finder)
     }
@@ -100,11 +101,11 @@ class ThemeDefinition {
     String getLayoutPathFor(String themeLayoutName) {
         layoutPaths[themeLayoutName]
     }
-    
+
     boolean hasLayout(String layoutName) {
         layoutPaths.containsKey(layoutName)
     }
-    
+
     List getLayouts() {
         layoutNames
     }

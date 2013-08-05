@@ -19,7 +19,7 @@ Logos are located according to the following rules:
 
 This ensures that even if a specific logo size is required that you have not provided, you should at least see the default logo indicating this.
 
-If one or more dimension is unspecified, the logo will be stretched to fit the target size. The results will usually be bad, and you will want to get a logo made at the correct size for the Theme you have chosen. 
+If one or more dimension is unspecified, the logo will be stretched to fit the target size. The results will usually be bad, and you will want to get a logo made at the correct size for the Theme you have chosen.
 
 To support multiple themes with different logo sizes without stretching, simply make sure you have a logo file for each size required by the themes you support.
 

@@ -16,16 +16,16 @@
  */
 package org.grails.plugin.platform.themes
 
-import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.InitializingBean
-import org.grails.plugin.platform.views.ViewFinder
 import org.codehaus.groovy.grails.plugins.GrailsPlugin
-import org.grails.plugin.platform.views.ViewInfo
-import org.grails.plugin.platform.ui.UISets
 import org.codehaus.groovy.grails.web.pages.FastStringWriter
-import org.codehaus.groovy.grails.web.sitemesh.GSPSitemeshPage
+import org.codehaus.groovy.grails.web.sitemesh.GrailsPageFilter
 import org.codehaus.groovy.grails.web.util.GrailsPrintWriter
 import org.codehaus.groovy.grails.web.util.StreamCharBuffer
+import org.grails.plugin.platform.ui.UISets
+import org.grails.plugin.platform.views.ViewInfo
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.InitializingBean
 
 /**
  * Script to allow execution of an existing Closure as if it was a Script
@@ -33,21 +33,21 @@ import org.codehaus.groovy.grails.web.util.StreamCharBuffer
 class Themes implements InitializingBean {
     def grailsApplication
     def grailsViewFinder
-    
-    final log = LoggerFactory.getLogger(Themes)
 
-    static ATTRIB_CURRENT_THEME = 'theme.current'
-    static ATTRIB_CURRENT_SITEMESH_LAYOUT = 'theme.sitemesh.layout'
-    static ATTRIB_CURRENT_THEME_LAYOUT = 'theme.layout'
-    static ATTRIB_CURRENT_THEME_LAYOUT_FOUND = 'theme.layout.found'
-    static DEFAULT_THEME_NAME = '_default'    
-    static DEFAULT_LAYOUT = 'main'
+    final Logger log = LoggerFactory.getLogger(Themes)
+
+    static final String ATTRIB_CURRENT_THEME = 'theme.current'
+    static final String ATTRIB_CURRENT_SITEMESH_LAYOUT = 'theme.sitemesh.layout'
+    static final String ATTRIB_CURRENT_THEME_LAYOUT = 'theme.layout'
+    static final String ATTRIB_CURRENT_THEME_LAYOUT_FOUND = 'theme.layout.found'
+    static final String DEFAULT_THEME_NAME = '_default'
+    static final String DEFAULT_LAYOUT = 'main'
 
     static CORE_LAYOUTS = [
-        'home', 
-        'sidebar', 
-        'report', 
-        'dataentry', 
+        'home',
+        'sidebar',
+        'report',
+        'dataentry',
         'dialog', // single form area, no site chrome
         DEFAULT_LAYOUT
     ]
@@ -57,26 +57,26 @@ class Themes implements InitializingBean {
     def pluginConfig
     def grailsUiExtensions
     GrailsPlugin platformUiPlugin
-    
+
     List<ThemeDefinition> availableThemes = []
     Map<String, ThemeDefinition> themesByName = [:]
     ThemeDefinition defaultTheme
-    
+
     void afterPropertiesSet() {
         platformUiPlugin = pluginManager.getGrailsPlugin('platformUi')
         assert platformUiPlugin
-        
+
         // @todo Can't remember why we can't be given this via injection...
         pluginConfig = grailsPluginConfiguration.getPluginConfigFor(this)
-        
+
         reload()
     }
-    
+
     void reload() {
         loadThemes()
         loadConfig()
     }
-    
+
     void loadConfig() {
         def defThemeName = pluginConfig.theme.default
         if (!defThemeName) {
@@ -87,32 +87,32 @@ class Themes implements InitializingBean {
             }
         }
         defaultTheme = themesByName[defThemeName]
-        
+
         if (log.infoEnabled) {
             log.info "Default theme is [${defThemeName}]"
         }
     }
-    
+
     void loadThemes() {
         if (log.infoEnabled) {
             log.info "Loading theme definitions..."
         }
 
         availableThemes.clear()
-        
+
         def themesFound = []
-        
-        // Discover themes exposed by app 
+
+        // Discover themes exposed by app
         def appThemes = grailsViewFinder.listAppViewFoldersAt('/layouts/themes', 'main.gsp')
         if (log.infoEnabled) {
             log.info "Application theme definitions: ${appThemes}"
         }
         themesFound.addAll( appThemes.collect { themeName -> [name:themeName] } )
-        
+
         // Discover themes exposed by all plugins
         pluginManager.allPlugins.each { plugin ->
             def pluginThemes = grailsViewFinder.listPluginViewFoldersAt(plugin, '/layouts/themes', 'main.gsp')
-            def themeInfos = pluginThemes.collect { themeName -> [name:themeName, definingPlugin: plugin] } 
+            def themeInfos = pluginThemes.collect { themeName -> [name:themeName, definingPlugin: plugin] }
             if (log.infoEnabled) {
                 log.info "Plugin theme definitions found in plugin [${plugin.name}]: ${themeInfos.name}"
             }
@@ -130,7 +130,7 @@ class Themes implements InitializingBean {
         if (log.debugEnabled) {
             log.debug "Discovered themes: ${themesFound*.name}"
         }
-        
+
         for (themeInfo in themesFound) {
             def themeDef = new ThemeDefinition(themeInfo)
             themeDef.defaultPlugin = platformUiPlugin
@@ -141,7 +141,7 @@ class Themes implements InitializingBean {
 
             availableThemes << themeDef
         }
-        
+
         themesByName.clear()
         for (t in availableThemes) {
             // Get ui set name for this theme from config
@@ -151,14 +151,14 @@ class Themes implements InitializingBean {
                 def pluginUIName = grailsApplication.config.plugin[t.definingPlugin.name].ui.set
                 uiSetName = pluginUIName instanceof String ? pluginUIName : null
             }
-            if (!(uiSetName instanceof String)) { 
+            if (!(uiSetName instanceof String)) {
                 uiSetName = null
             }
             t.uiSet = uiSetName ?: UISets.UI_SET_DEFAULT
             themesByName[t.name] = t
         }
-    }    
-    
+    }
+
     ThemeDefinition getRequestTheme(request = null, boolean returnDefault = true) {
         ThemeDefinition theme = grailsUiExtensions.getPluginRequestAttributes('platformUi')[ATTRIB_CURRENT_THEME]
         if (!theme) {
@@ -167,10 +167,10 @@ class Themes implements InitializingBean {
         if (!theme && returnDefault) {
             theme = defaultTheme
         }
-        
+
         return theme
     }
-    
+
     void setRequestTheme(request, String theme) {
         if (log.debugEnabled) {
             log.debug "Setting current request theme to [${theme}]"
@@ -219,11 +219,11 @@ class Themes implements InitializingBean {
                 log.debug "Layout name for theme ${currentTheme.name} with page layout ${styleName} from config mapping is [${mappedLayoutName}]"
             }
         }
-        
+
         if (!(mappedLayoutName instanceof ConfigObject)) {
             layoutName = mappedLayoutName
         }
-        
+
         if (!currentTheme.hasLayout(layoutName)) {
             // fall back to default layout name
             layoutName = pluginConfig.theme.layout.default
@@ -232,17 +232,17 @@ class Themes implements InitializingBean {
             }
             if (layoutName instanceof ConfigObject) {
                 // OK, no config at all, just use this, we know it exists
-        
+
                 layoutName = DEFAULT_LAYOUT
                 if (log.debugEnabled) {
                     log.debug "Layout name for theme ${currentTheme.name} with page layout ${styleName} falling back to default [${layoutName}]"
                 }
             }
         }
-        
+
         // Let's see if it exists
         def layoutPath = currentTheme.getLayoutPathFor(layoutName)
-        
+
         if (!layoutPath) {
             setRequestLayoutFound(request, false)
             layoutPath = defaultTheme.getLayoutPathFor(DEFAULT_LAYOUT)
@@ -258,7 +258,7 @@ class Themes implements InitializingBean {
         }
         setRequestSitemeshLayout(request, layoutPath)
     }
-    
+
     void setRequestSitemeshLayout(request, layout) {
         grailsUiExtensions.getPluginRequestAttributes('platformUi')[ATTRIB_CURRENT_SITEMESH_LAYOUT] = layout
     }
@@ -266,7 +266,7 @@ class Themes implements InitializingBean {
     String getRequestSitemeshLayout(request) {
         grailsUiExtensions.getPluginRequestAttributes('platformUi')[ATTRIB_CURRENT_SITEMESH_LAYOUT]
     }
-    
+
     void setRequestLayoutFound(request, boolean found) {
         grailsUiExtensions.getPluginRequestAttributes('platformUi')[ATTRIB_CURRENT_THEME_LAYOUT_FOUND] = found
     }
@@ -286,11 +286,11 @@ class Themes implements InitializingBean {
     List<String> getThemeNames() {
         availableThemes*.name
     }
-    
+
     String getRequestStyle(request) {
         grailsUiExtensions.getPluginRequestAttributes('platformUi')[ATTRIB_CURRENT_THEME_LAYOUT] ?: 'main'
     }
-    
+
     // @todo cache these too - get them from the theme
     ViewInfo getRequestThemeTemplateView(request, template) {
         def t = getRequestTheme(request)
@@ -306,10 +306,10 @@ class Themes implements InitializingBean {
         }
         return new ViewInfo(
             owner:t.name,
-            plugin:t.definingPlugin?.name, 
+            plugin:t.definingPlugin?.name,
             path:v)
     }
- 
+
     /**
      * Returns the template path for dummy text for the specific zone, for the current theme
      * Tries for files in the theme's _themes/<themename>/test/_<zonename>.gsp first
@@ -356,7 +356,7 @@ class Themes implements InitializingBean {
         def bufferName = 'theme.zone.'+zone
         appendToContentBuffer(request, bufferName, content)
     }
-    
+
     protected appendToContentBuffer(request, bufferName, body) {
         def htmlPage = getPage(request)
         def contentBuffer = htmlPage.getContentBuffer('page.'+bufferName)
@@ -380,7 +380,7 @@ class Themes implements InitializingBean {
 
 */
     protected getPage(request) {
-        return request[org.codehaus.groovy.grails.web.sitemesh.GrailsPageFilter.GSP_SITEMESH_PAGE]
+        return request[GrailsPageFilter.GSP_SITEMESH_PAGE]
     }
 
     protected wrapContentInBuffer(content) {
@@ -395,6 +395,4 @@ class Themes implements InitializingBean {
         }
         return content
     }
-    
-    
 }

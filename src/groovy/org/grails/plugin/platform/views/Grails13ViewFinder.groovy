@@ -16,18 +16,16 @@
  */
 package org.grails.plugin.platform.views
 
-import org.springframework.context.ApplicationContextAware
-import org.codehaus.groovy.grails.commons.GrailsApplication
-import org.springframework.context.ApplicationContext
-import org.codehaus.groovy.grails.web.pages.GroovyPagesUriService
-import org.codehaus.groovy.grails.web.servlet.GrailsApplicationAttributes
-import org.slf4j.LoggerFactory
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver
-
-import org.springframework.core.io.Resource
-import org.codehaus.groovy.grails.plugins.GrailsPlugin
-
 import grails.util.GrailsUtil
+
+import org.codehaus.groovy.grails.plugins.GrailsPlugin
+import org.codehaus.groovy.grails.web.pages.GroovyPagesUriService
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import org.springframework.context.ApplicationContext
+import org.springframework.context.ApplicationContextAware
+import org.springframework.core.io.Resource
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 
 /**
  * Interface for grailsViewFinder bean used to see if GSP views and layouts exist.
@@ -36,15 +34,15 @@ import grails.util.GrailsUtil
  */
 class Grails13ViewFinder implements ViewFinder, ApplicationContextAware {
 
-    final log = LoggerFactory.getLogger(Grails13ViewFinder)
+    final Logger log = LoggerFactory.getLogger(Grails13ViewFinder)
 
     ApplicationContext applicationContext
     def grailsApplication
     def pluginManager
     Map precompiledGspMap
-    
+
     GroovyPagesUriService groovyPagesUriService
-    
+
     private static final String GROOVY_PAGE_RESOURCE_LOADER = "groovyPageResourceLoader"
     private static final String VIEW_PATH_PREFIX = '/grails-app/views'
     private static final String APP_VIEW_PATH_PREFIX = VIEW_PATH_PREFIX
@@ -54,12 +52,12 @@ class Grails13ViewFinder implements ViewFinder, ApplicationContextAware {
     String getResourcesPrefix() {
         GrailsUtil.grailsVersion.startsWith('1.') ? '/WEB-INF' : ''
     }
-    
+
     private boolean hasNonCompiledGSP(fullpath) {
         def loader = establishResourceLoader()
         loader.getResource(fullpath)?.exists()
     }
-    
+
     /**
      * @param name The path of the view relative to grails-views/ and excluding the .gsp part, but containing relevant underscores
      */
@@ -75,8 +73,8 @@ class Grails13ViewFinder implements ViewFinder, ApplicationContextAware {
         }
         return res
     }
-    
-    /** 
+
+    /**
      * See if a GSP template exists in a plugin
      * If plugin is null, reverts to application views
      */
@@ -95,7 +93,7 @@ class Grails13ViewFinder implements ViewFinder, ApplicationContextAware {
         }
         return exists
     }
-    
+
     /**
      * @param path The path of the layout view relative to grails-views/layouts/ and excluding the .gsp part
      */
@@ -119,13 +117,13 @@ class Grails13ViewFinder implements ViewFinder, ApplicationContextAware {
                     log.debug "Checking for layout in plugin [${plugin.name}] at ${fullpath} found: $exists"
                 }
                 if (exists) {
-                    break;
+                    break
                 }
             }
         }
         return exists
     }
-    
+
     List<String> extractLastFolderNamesFromPaths(paths, filePartToRemove) {
         int fileLen = filePartToRemove.length()+1 // Add 1 for the preceding /
         paths.collect { p ->
@@ -137,7 +135,7 @@ class Grails13ViewFinder implements ViewFinder, ApplicationContextAware {
 
     List<String> listPluginViewFoldersAt(GrailsPlugin plugin, String path, String markerView) {
         def searchPath = '/plugins/'+plugin.fileSystemName+VIEW_PATH_PREFIX+path
-        
+
         def resources = listViewsInFolder(searchPath, '*/'+markerView, 'URI') // look for a specific file
         if (log.debugEnabled) {
             log.debug "listPluginViewFoldersAt for [$searchPath]  found: ${resources}"
@@ -180,12 +178,11 @@ class Grails13ViewFinder implements ViewFinder, ApplicationContextAware {
         }
         return resourceStrings
     }
-    
 
     String getPathToAppViews() {
         APP_VIEW_PATH_PREFIX
     }
-    
+
     String getPathToPluginViews(GrailsPlugin plugin) {
         '/plugins/'+plugin.fileSystemName+VIEW_PATH_PREFIX
     }
@@ -193,7 +190,7 @@ class Grails13ViewFinder implements ViewFinder, ApplicationContextAware {
     String getFullPathToAppViews() {
         establishResourceLoader().getResource(pathToAppViews).toString()
     }
-    
+
     String getFullPathToPluginViews(GrailsPlugin plugin) {
         establishResourceLoader().getResource(pathToPluginViews(plugin)).toString()
     }
@@ -201,7 +198,7 @@ class Grails13ViewFinder implements ViewFinder, ApplicationContextAware {
     protected boolean hasPrecompiledView(String viewPath) {
         precompiledGspMap?.containsKey('/WEB-INF'+viewPath)
     }
-    
+
     protected listPrecompiledViews(String path) {
         def result = []
         if (precompiledAvailable) {
@@ -209,7 +206,7 @@ class Grails13ViewFinder implements ViewFinder, ApplicationContextAware {
                 log.debug "listPrecompiledViews - we have precompiled views"
             }
             def pathPattern = ~(/\/WEB-INF/ + path + /\/(.+)/)
-            def r = precompiledGspMap.keySet().findAll { p -> 
+            def r = precompiledGspMap.keySet().findAll { p ->
                 if (log.debugEnabled) {
                     log.debug "listPrecompiledViews - Seeing if precompiled GSP ${p} matches the path $path (regex: $pathPattern)"
                 }
@@ -231,7 +228,7 @@ class Grails13ViewFinder implements ViewFinder, ApplicationContextAware {
         }
         return result
     }
-    
+
     protected boolean viewExists(String path) {
         boolean precompiledView = hasPrecompiledView(path)
         if (precompiledView) {
@@ -239,7 +236,7 @@ class Grails13ViewFinder implements ViewFinder, ApplicationContextAware {
         }
 
         def loader = new PathMatchingResourcePatternResolver(establishResourceLoader())
-        
+
         def searchPath = resourcesPrefix+path
 
         if (log.debugEnabled) {
@@ -261,11 +258,11 @@ class Grails13ViewFinder implements ViewFinder, ApplicationContextAware {
             // Match shell-like paths */xxxx at end of path
             def precompPathPattern = ~(pattern.replaceAll(/\*/, '.*')+'$')
             def results = result.findAll { p -> p ==~ precompPathPattern }
-            
+
             // Now we need to pretend we are Spring Resource objects that support URI or filename properties
             if (resourcePropertyToGet == 'filename') {
                 def fileNamePattern = ~/([.[^\/]]+\.gsp)$/
-                return results.collect { 
+                return results.collect {
                     def matcher = it =~ fileNamePattern
                     if (matcher) {
                         return matcher[0][1]
@@ -303,35 +300,35 @@ class Grails13ViewFinder implements ViewFinder, ApplicationContextAware {
     }
 
     private boolean isPrecompiledAvailable() {
-      return precompiledGspMap != null && precompiledGspMap.size() > 0 && grailsApplication.warDeployed;
+      return precompiledGspMap && grailsApplication.warDeployed
     }
 
-/*    
+/*
     protected GroovyPageScriptSource findResourceScriptSource(final String uri) {
-        List<String> searchPaths = null;
+        List<String> searchPaths = null
 
         if (warDeployed) {
             if (uri.startsWith(PLUGINS_PATH)) {
-                PluginViewPathInfo pathInfo = getPluginViewPathInfo(uri);
+                PluginViewPathInfo pathInfo = getPluginViewPathInfo(uri)
 
-                searchPaths = CollectionUtils.newList( 
+                searchPaths = CollectionUtils.newList(
                     GrailsResourceUtils.appendPiecesForUri(GrailsResourceUtils.WEB_INF, PLUGINS_PATH, pathInfo.pluginName,GrailsResourceUtils.VIEWS_DIR_PATH, pathInfo.path),
                     GrailsResourceUtils.appendPiecesForUri(GrailsResourceUtils.WEB_INF, uri),
-                    uri);
+                    uri)
             }
             else {
                 searchPaths = CollectionUtils.newList(
                     GrailsResourceUtils.appendPiecesForUri(PATH_TO_WEB_INF_VIEWS, uri),
-                    uri);
+                    uri)
             }
         }
         else {
             searchPaths = CollectionUtils.newList(
                 GrailsResourceUtils.appendPiecesForUri('/' + GrailsResourceUtils.VIEWS_DIR_PATH, uri),
-                uri);
+                uri)
         }
 
-        return findResourceScriptPathForSearchPaths(uri, searchPaths);
+        return findResourceScriptPathForSearchPaths(uri, searchPaths)
     }
 */
     private establishResourceLoader() {
@@ -339,8 +336,8 @@ class Grails13ViewFinder implements ViewFinder, ApplicationContextAware {
 
         if (grailsApplication && !grailsApplication.warDeployed && ctx.containsBean(GROOVY_PAGE_RESOURCE_LOADER)) {
             return ctx.getBean(GROOVY_PAGE_RESOURCE_LOADER)
-        } else {
-            return ctx
         }
+
+        return ctx
     }
 }

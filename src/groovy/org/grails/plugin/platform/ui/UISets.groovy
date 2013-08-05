@@ -16,39 +16,38 @@
  */
 package org.grails.plugin.platform.ui
 
-import org.springframework.beans.factory.InitializingBean
-import org.springframework.context.ApplicationContextAware
-import org.springframework.context.ApplicationContext
 import org.codehaus.groovy.grails.plugins.GrailsPlugin
-import org.grails.plugin.platform.views.ViewFinder
 import org.grails.plugin.platform.views.ViewInfo
-import org.springframework.core.io.Resource
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.InitializingBean
+import org.springframework.context.ApplicationContext
+import org.springframework.context.ApplicationContextAware
 
 class UISets implements ApplicationContextAware, InitializingBean {
-    static UI_TEMPLATES_PREFIX = "/_ui"
-    static UI_SET_DEFAULT = '_default'
-    
-    final log = LoggerFactory.getLogger(UISets)
+    static final String UI_TEMPLATES_PREFIX = "/_ui"
+    static final String UI_SET_DEFAULT = '_default'
+
+    final Logger log = LoggerFactory.getLogger(UISets)
 
     ApplicationContext applicationContext
-    
-    static UI_TAG_NAMES = [
-        'block', 
-        'message', 
 
-        'tabs', 
-        'tab', 
+    static Set UI_TAG_NAMES = [
+        'block',
+        'message',
 
-        'image', 
-        'avatar', 
-        
-        'button', 
-        
+        'tabs',
+        'tab',
+
+        'image',
+        'avatar',
+
+        'button',
+
         'navigation',
         'primaryNavigation',
         'secondaryNavigation',
-        
+
         'paginate',
         'form',
         'field',
@@ -64,23 +63,23 @@ class UISets implements ApplicationContextAware, InitializingBean {
 
         'carousel',
         'slide',
-    ] as Set
-    
+    ]
+
     def pluginManager
     def grailsViewFinder
     def grailsPluginConfiguration
     def pluginConfig
     def grailsThemes
     def grailsUiExtensions
-    
+
     GrailsPlugin platformUiPlugin
     Map<String, UISetDefinition> uiSetsByName = [:]
     List<UISetDefinition> availableUISets = []
-    
+
     void afterPropertiesSet() {
         platformUiPlugin = pluginManager.getGrailsPlugin('platformUi')
         assert platformUiPlugin
-        
+
         pluginConfig = grailsPluginConfiguration.getPluginConfigFor(this)
 
         loadUISets()
@@ -92,14 +91,14 @@ class UISets implements ApplicationContextAware, InitializingBean {
     void setPreviewRequestUISet(request, String name) {
         grailsUiExtensions.getPluginRequestAttributes('platformUi')['ui.sets.preview'] = [uiSetsByName[name]]
     }
-    
+
     /**
      * Set the UI set for this request
      */
     void setRequestUISet(request, String name) {
         grailsUiExtensions.getPluginRequestAttributes('platformUi')['ui.set.name'] = name
     }
-    
+
     /**
      * Get theme's UISetDefinition, as a list in order of resolution so that app can override templates
      */
@@ -109,11 +108,11 @@ class UISets implements ApplicationContextAware, InitializingBean {
         if (cachedResult) {
             return cachedResult
         }
-        
+
         def testingResult = reqAttribs?.'ui.sets.preview'
-        
+
         List<UISetDefinition> defs = testingResult ?: []
-        
+
         // Don't get the theme ui overrides mixed up in here when previewing UI Sets
         if (!testingResult) {
             if (reqAttribs?.'ui.set.name') {
@@ -130,7 +129,7 @@ class UISets implements ApplicationContextAware, InitializingBean {
                 defs << appUISet
             }
         }
-        
+
         defs << uiSetsByName[UI_SET_DEFAULT]
         if (log.debugEnabled) {
             log.debug "UI Sets for this request, as determined by theme are: ${defs*.name}"
@@ -148,25 +147,25 @@ class UISets implements ApplicationContextAware, InitializingBean {
             log.debug "Loading UI Sets..."
         }
         availableUISets.clear()
-        
+
         def uiSetsFound = []
-        
+
         //def appPlugin = PluginUtils.findAppPlugin(grailsApplication.mainContext)
-        
-        // Discover UI Sets exposed by app 
+
+        // Discover UI Sets exposed by app
         def appUISets = grailsViewFinder.listAppViewFoldersAt(UI_TEMPLATES_PREFIX, '_field.gsp')
         uiSetsFound.addAll( appUISets.collect { uiName -> [name:uiName] } )
         if (log.debugEnabled) {
             log.debug "UI sets from app: ${appUISets}"
         }
-        
+
         // Discover themes exposed by all plugins
         pluginManager.allPlugins.each { plugin ->
             def pluginUISets = grailsViewFinder.listPluginViewFoldersAt(plugin, UI_TEMPLATES_PREFIX, '_field.gsp')
             if (log.debugEnabled) {
                 log.debug "UI sets from plugin [${plugin.name}]: ${pluginUISets}"
             }
-            def uiInfos = pluginUISets.collect { uiName -> [name:uiName, definingPlugin: plugin] } 
+            def uiInfos = pluginUISets.collect { uiName -> [name:uiName, definingPlugin: plugin] }
             for (ti in uiInfos) {
                 if (!(ti.name in appUISets)) {
                     uiSetsFound << ti
@@ -181,7 +180,7 @@ class UISets implements ApplicationContextAware, InitializingBean {
         if (log.debugEnabled) {
             log.debug "Discovered UI sets: ${uiSetsFound*.name}"
         }
-        
+
         for (uiInfo in uiSetsFound) {
             def uiDef = new UISetDefinition(uiInfo)
             if (log.debugEnabled) {
@@ -191,20 +190,19 @@ class UISets implements ApplicationContextAware, InitializingBean {
 
             availableUISets << uiDef
         }
-        
+
         /*
         if (!appPlugin) {
-            def defaultUI = new UISetDefinition(name:UI_SET_DEFAULT, definingPlugin: platformUiPlugin) 
+            def defaultUI = new UISetDefinition(name:UI_SET_DEFAULT, definingPlugin: platformUiPlugin)
             defaultUI.resolve(grailsViewFinder)
-            availableUISets << defaultUI   
+            availableUISets << defaultUI
         }
         */
-        
+
         uiSetsByName.clear()
         for (t in availableUISets) {
             uiSetsByName[t.name] = t
         }
-        
     }
 
     ViewInfo getTemplateView(request, String templateName, boolean strict = true) {
@@ -241,6 +239,4 @@ class UISets implements ApplicationContextAware, InitializingBean {
         }
         return v == null ? defaultValue : v
     }
-    
-
 }

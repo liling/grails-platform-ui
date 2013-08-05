@@ -1,6 +1,6 @@
 The application of site branding within a theme is obviously very important.
 
-Out of the box, when a user switches to your Theme, all the existing information about their application should be used. The site name, the URLs, and logos should be instantly incorporated to decorate their application with your theme, while retaining their site's branding. 
+Out of the box, when a user switches to your Theme, all the existing information about their application should be used. The site name, the URLs, and logos should be instantly incorporated to decorate their application with your theme, while retaining their site's branding.
 
 If you do this correctly, the tools provided in Platform UI and Platform Core allow Themes to provide diverse branding while minimizing the need for developers to customize or fork the theme.
 

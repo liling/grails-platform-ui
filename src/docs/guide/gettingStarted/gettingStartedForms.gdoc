@@ -9,7 +9,7 @@ Create a @TestController@ with a @login@ action and save @login.gsp@ in @grails-
         <theme:layout name="dialog"/>
         <theme:title text="login.page.title"></theme:title>
     <head>
-    <body>   
+    <body>
         <theme:zone name="body">
             <ui:h1>Please log in</ui:h1>
             <ui:form>

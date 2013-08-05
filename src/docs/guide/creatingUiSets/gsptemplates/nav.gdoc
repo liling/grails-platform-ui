@@ -24,13 +24,13 @@ h3. Variables available
 navigationClass | A string containing the CSS class to apply to the outermost container element
 scope | A string identifying the navigation scope to render
 classes | A string containing the list of CSS classes to apply to the outer container
-attrs | The attributes to pass through to the outermost containing element. 
+attrs | The attributes to pass through to the outermost containing element.
 {table}
 
 h3. Example template implementation
 
 {docx:xml}
-<p:callTag tag="nav:menu" attrs="${attrs + 
+<p:callTag tag="nav:menu" attrs="${attrs +
     [class:p.joinClasses(values:[navigationClass, classes]), scope:scope]}"/>
 {docx}
 

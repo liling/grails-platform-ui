@@ -29,7 +29,7 @@ target("create-ui-set": "Creates the skeleton of a ui-set") {
     }
 
     def className = GrailsNameUtils.getClassNameRepresentation(name)
-    
+
     def gsppath = "grails-app/views/_ui/${name}"
     def gspbase = "${basedir}/${gsppath}"
     ant.mkdir(dir:gspbase)
@@ -42,10 +42,10 @@ target("create-ui-set": "Creates the skeleton of a ui-set") {
     // Resource template
     def resPath = "grails-app/conf/${className}UIResources.groovy"
     def resFile = "${basedir}/${resPath}"
-    ant.copy(file: new File(platformUiPluginDir, 'src/templates/ui/UIResources.groovy'), toFile:resFile) 
-        
+    ant.copy(file: new File(platformUiPluginDir, 'src/templates/ui/UIResources.groovy'), toFile:resFile)
+
     ant.replace(file: resFile, token: "@artifact.name@", value: name)
-    
+
     output "Created your UI Set and resources template"
     output "The GSP views are in ${gsppath}"
     output "The resources are in ${resPath}"

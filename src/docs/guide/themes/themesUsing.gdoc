@@ -1,4 +1,4 @@
-Using Platform UI Themes in your Grails applications is simple. 
+Using Platform UI Themes in your Grails applications is simple.
 
 There are only three things you need to do:
 
@@ -56,7 +56,7 @@ but if you are supplying multiple zones, all content including that for the body
     <head>
       <theme:layout name="home"/>
     </head>
-    <body>   
+    <body>
         <theme:zone name="body">
             <p>Welcome to our site</p>
         </theme:zone>

@@ -44,5 +44,5 @@ text | | If specified, will be used as the text content for the cell, translated
 textArgs | | Used as the arguments for the "text" i18n message if used.
 {table}
 
-All other attributes are passed through. 
+All other attributes are passed through.
 

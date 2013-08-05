@@ -34,7 +34,7 @@ uri | | A uri for the link. Creates a tab that is a link to other content, inste
 url | | A url for the link. Creates a tab that is a link to other content, instead of embedding the tab panel content in the page
 {table}
 
-All other attributes are passed through. 
+All other attributes are passed through.
 
 h2. Localization
 

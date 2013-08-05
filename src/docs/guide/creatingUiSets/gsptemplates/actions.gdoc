@@ -7,7 +7,7 @@ The actions template must render the block of form actions supplied in the body 
 The caller uses the @ui:actions@ tag to demarcate the part of a @ui:form@ that contains the actions the user
 can perform - such as "Save or cancel" button and links, or perhaps other data navigation buttons etc.
 
-Sometimes this is separated visually from the rest of the form, and sometimes it is repeated at the top and bottom of forms. 
+Sometimes this is separated visually from the rest of the form, and sometimes it is repeated at the top and bottom of forms.
 
 This is entirely up to the UI Set implementation however. @ui:actions@ is to be called only once or not at all
 in each @ui:form@.

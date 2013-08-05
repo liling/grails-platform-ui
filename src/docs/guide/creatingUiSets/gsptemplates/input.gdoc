@@ -48,7 +48,7 @@ h3. Example template implementation
     <g:set var="value" value="${beanObject[name]}"/>
 </g:if>
 <g:if test="${!(type in ['select', 'textarea', 'datepicker'])}">
-    <input id="${id}" name="${name.encodeAsHTML()}" 
+    <input id="${id}" name="${name.encodeAsHTML()}"
         class="${p.joinClasses(values:[inputClass, classes])}"
         type="${type}" value="${value?.encodeAsHTML()}"/>
 </g:if>
@@ -82,7 +82,7 @@ ${field}
 <bean:textAreaTemplate>
 ${field}
 </bean:textAreaTemplate>
-<g:if test="${beanObject}">        
+<g:if test="${beanObject}">
         <g:if test="${type == 'password'}">
             <bean:field type="password" beanName="dummy"
                 bean="${beanObject}" property="${name}" noLabel="${true}"/>

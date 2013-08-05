@@ -1,6 +1,6 @@
 <ui:block title="Typography">
     <ui:h1>Theme-relative Heading 1</ui:h1>
-    <ui:h2>Theme-relative Heading 2</ui:h2>  
+    <ui:h2>Theme-relative Heading 2</ui:h2>
     <ui:h3>Theme-relative Heading 3</ui:h3>
     <ui:h4>Theme-relative Heading 4</ui:h4>
     <p>Paragraph text: <p:dummyText size="1"/></p>
@@ -41,10 +41,10 @@
 <ui:block title="Navigation">
     <ui:h1>Primary Navigation</ui:h1>
     <ui:primaryNavigation/>
-    
+
     <ui:h1>Secondary Navigation</ui:h1>
     <ui:secondaryNavigation/>
-    
+
     <ui:h1>General Navigation</ui:h1>
     <ui:navigation scope="dev"/>
 </ui:block>
@@ -58,7 +58,7 @@
 
 
 <ui:block title="blocks.with.titles.from.message.bundle">
-    <p>Blocks like this use <code>ui:block</code> and take a <code>title</code> that 
+    <p>Blocks like this use <code>ui:block</code> and take a <code>title</code> that
         has i18n applied. The theme controls how a block is rendered, typically adding an outer div and a class, and a heading.</p>
     <p:dummyText size="2"/>
 </ui:block>
@@ -71,7 +71,7 @@
 <ui:block title="Images and Avatars">
     <p>The <code>ui:image</code> tag is used to style images such that the theme can decorate them suitably with thumbnail borders or automatically implement light boxes etc.</p>
     <ui:image uri="http://grails.org/static/cXmUZIAv28XIiNgkRiz4RRl21TsGZ5HoGpZw1UITNyV.png" width="200" title="Grails Logo" alt="This is the Grails Logo"/>
-    <p>The <code>ui:avatar</code> tag is used to style avatar images in the same way, but the 
+    <p>The <code>ui:avatar</code> tag is used to style avatar images in the same way, but the
         Theme is responsible for which avatar types it supports. By default Gravatar is supported
         without the need for any extra plugins.</p>
     <ui:avatar user="marc@anyware.co.uk" size="50" rating="G" title="An avatar" alt="This is an Avatar"/>
@@ -79,11 +79,11 @@
 </ui:block>
 
 <ui:block title="Buttons">
-    <p>To allow themes to customize the rendering of buttons, we provide the <code>ui:button</code> tag. Themes can use this to 
+    <p>To allow themes to customize the rendering of buttons, we provide the <code>ui:button</code> tag. Themes can use this to
         change the CSS classes applied to the HTML <code>button</code>, <code>a</code>, <code>input type="submit"</code> tags or
         to use completely different markup entirely if they so wish, provided they are functionally equivalent.</p>
     <p>Guaranteed available modes are <code>primary</code>, <code>secondary</code>, <code>danger</code> and <code>cancel</code>.</p>
-    
+
     <ui:button>Save</ui:button>
     <ui:button mode="primary">OK</ui:button>
     <ui:button mode="secondary">Back</ui:button>
@@ -98,7 +98,7 @@
 <ui:block title="Tabs">
     <p>Tabs are a common UI element with no standard implementation so Themes can customize the implementation of the output of the
         implementation-neutral <code>ui:tabs</code> and <code>ui:tab</code> tags. Themes can add JS behaviours as appropriate, apply CSS classes
-        and alter the markup if they so wish.</p> 
+        and alter the markup if they so wish.</p>
     <ui:h3>Tabs with hardcoded titles</ui:h3>
     <ui:tabs>
         <ui:tab title="One" active="true"/>
@@ -120,7 +120,7 @@
 </ui:block>
 
 <ui:block title="Carousel">
-    <p>Carousels provide a way to show multiple sections of content, transitioning from one to another.</p> 
+    <p>Carousels provide a way to show multiple sections of content, transitioning from one to another.</p>
     <ui:carousel>
         <ui:slide active="true">
             <p>This is slide one</p>

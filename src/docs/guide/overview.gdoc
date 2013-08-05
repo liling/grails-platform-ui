@@ -22,7 +22,7 @@ It doesn't matter which because:
 
 The application author can choose the UI set used on any given request, but usually this will be the same across the whole application. This choice may be made indirectly through the use of Themes.
 
-UI Sets do not have to supply any CSS and JS files - if they do, they should be defined using the Resources framework such that they can be overriden by Themes or the application developer. 
+UI Sets do not have to supply any CSS and JS files - if they do, they should be defined using the Resources framework such that they can be overriden by Themes or the application developer.
 
 For example a UI Set might apply a CSS class "well" to a <div> it puts around the content of a @ui:block@ tag, but it does not have to provide the styling for this - in fact many themes may use the same UI Set and override the CSS that the UI Set provides to style the "well" elements differently.
 
@@ -55,4 +55,3 @@ theme that they choose.
 What you will typically do in professional applications is define your own Theme by forking another, and then you can make all the UI tags do exactly what you want for your application.
 
 This is only possible because plugins will be able to use the UI tags to delegate how to actually render elements.
-                                                                                               

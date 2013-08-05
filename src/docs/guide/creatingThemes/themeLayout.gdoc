@@ -12,20 +12,20 @@ Here's an example Theme layout using minimal structural markup:
     <theme:head/>
     <theme:body>
         <ui:logo/>
-        
+
         <div id="nav">
             <theme:layoutZone name="navigation"/>
         </div>
-        
+
         <div id="user-nav">
             <theme:layoutZone name="user-navigation"/>
         </div>
-        
+
         <div class="container">
             <h1><theme:layoutTitle/></h1>
-            
+
             <ui:displayMessage/>
-            
+
             <div id="second-nav">
                 <theme:layoutZone name="secondary-navigation"/>
             </div>
@@ -37,7 +37,7 @@ Here's an example Theme layout using minimal structural markup:
             <div id="sidebar">
                 <theme:layoutZone name="sidebar"/>
             </div>
-            
+
             <div id="footer">
                 <theme:layoutZone name="footer"/>
             </div>
@@ -46,7 +46,7 @@ Here's an example Theme layout using minimal structural markup:
 </html>
 {docx}
 
-You can see here that the @theme:layoutZone@ tag is used to render each chunk of content supplied by the GSP, and decorate it with the markup required to work with the CSS to achieve the desired layout - and the content in those zones is unaware of these requirements. 
+You can see here that the @theme:layoutZone@ tag is used to render each chunk of content supplied by the GSP, and decorate it with the markup required to work with the CSS to achieve the desired layout - and the content in those zones is unaware of these requirements.
 
 The [head|themeTags] and [body|themeTags] tags are optional but simplify layouts significantly. If you do not use these, there are more tags that you will need to use, such as [layoutTitle|themeTags] which handles the theme-aware i18n friendly title mechanism, and [resources|themeTags] to include the Theme's resources, and the regular @r:layoutResources@ calls to get the Resources plugin to render the actual resource dependencies.
 

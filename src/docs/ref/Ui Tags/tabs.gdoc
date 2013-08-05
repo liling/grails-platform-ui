@@ -23,6 +23,6 @@ h2. Attributes
 prefix | | If specified, will be used as the prefix (plus '.') for titles when resolving them in the i18n message bundle
 {table}
 
-All other attributes are passed through. 
+All other attributes are passed through.
 
 

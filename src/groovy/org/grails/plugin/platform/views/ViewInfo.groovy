@@ -17,7 +17,7 @@
 package org.grails.plugin.platform.views
 
 /**
- * Encapsulates information about a discovered view 
+ * Encapsulates information about a discovered view
  */
 class ViewInfo {
     String owner
@@ -25,5 +25,5 @@ class ViewInfo {
     String plugin
     String path
 
-    String toString() { "View at path [${path}] in [${plugin}] with name [${name}] owned by [${owner}]"}
+    String toString() { "View at path [${path}] in [${plugin}] with name [${name}] owned by [${owner}]" }
 }

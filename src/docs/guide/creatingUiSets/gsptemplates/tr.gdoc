@@ -15,7 +15,7 @@ oddEvenClass | The CSS class to use for the row, to indicate if it is even/odd. 
 classes | A string containing the list of CSS classes to apply to the outer container
 row | The current row index in the table (zero based)
 bodyContent | The body of the row
-attrs | The attributes to pass through to the outermost element. 
+attrs | The attributes to pass through to the outermost element.
 {table}
 
 h3. Example template implementation

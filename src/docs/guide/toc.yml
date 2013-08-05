@@ -1,4 +1,4 @@
-overview: 
+overview:
   title: Overview
 changelog: Change Log
 gettingStarted:
@@ -21,11 +21,11 @@ ui:
       grouping: Grouping
       forms: Forms
       typography: Typography
-themes: 
+themes:
   title: Themes API
   themesUsing: Using Themes In Your Application
   themeZones: Content Zones
-  themesDefault: About The _default Theme 
+  themesDefault: About The _default Theme
 creatingThemes:
   title: Creating A Theme
   themeRequirements: Requirements
@@ -64,7 +64,7 @@ creatingUiSets:
     tab: The Tab template
     title: UI Set GSP Template Reference
   utilitytags: Utility Tags
-debugging: 
+debugging:
   title: Debugging - What the hell is going on?
   debuggingUISets: Troubleshooting UI Sets
   debuggingThemes: Troubleshooting Themes

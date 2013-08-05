@@ -13,7 +13,7 @@
             <p>Welcome the the Platform UI tools</p>
         </div>
 
-        <section>        
+        <section>
         <h2>Tools</h2>
         <ul>
             <li><g:link mapping="platformUiNormal" controller="platformUi" action="themes">Open Theme previewer</g:link></li>
@@ -21,7 +21,7 @@
         </ul>
         </section>
 
-        <section>        
+        <section>
             <h2>You have the following Themes installed:</h2>
             <div class="accordion" id="themeList">
                 <g:each in="${theme.listThemes()}" var="t" status="i">
@@ -40,13 +40,13 @@
                                             <strong>${l.key.encodeAsHTML()}</strong> &raquo; ${l.value.encodeAsHTML()}
                                         </li>
                                     </g:each>
-                                </ul>                        
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </g:each>
             </div>
-            
+
             <h2>You have the following UI Sets installed:</h2>
             <div class="accordion" id="uiSetList">
                 <g:each in="${ui.listSets()}" var="s" status="i">
@@ -64,7 +64,7 @@
                                         <li><strong>${l.key.encodeAsHTML()}</strong> &raquo; ${l.value.encodeAsHTML()}</li>
                                     </g:each>
                                 </ul>
-                                Anything not listed will resolve to the UI template in the _default theme.                      
+                                Anything not listed will resolve to the UI template in the _default theme.
                             </div>
                         </div>
                     </div>

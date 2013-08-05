@@ -16,7 +16,6 @@
  */
 package org.grails.plugin.platform.views
 
-import org.springframework.core.io.Resource
 import org.codehaus.groovy.grails.plugins.GrailsPlugin
 
 /**
@@ -41,13 +40,13 @@ interface ViewFinder {
     boolean layoutExists(String name)
 
     String getPathToAppViews()
-    
+
     String getPathToPluginViews(GrailsPlugin plugin)
-    
+
     String getFullPathToAppViews()
 
     String getFullPathToPluginViews(GrailsPlugin plugin)
-    
+
     List<String> listAppViewsAt(String path)
 
     List<String> listPluginViewsAt(GrailsPlugin plugin, String path)

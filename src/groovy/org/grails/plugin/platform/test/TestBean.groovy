@@ -24,6 +24,4 @@ class TestBean {
     String name
     Boolean enabled
     Date dateOfBirth
-    
-    static constraints = {}
 }

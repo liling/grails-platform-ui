@@ -42,6 +42,6 @@ This way, an application can write @<ui:field name="x"/>@ and work with existing
 
 This is how plugins can expose UI that fits in with the application's chosen theme.
 
-The secret to making your UI work with theming is relinquishing control over the details of HTML markup and CSS classes. 
+The secret to making your UI work with theming is relinquishing control over the details of HTML markup and CSS classes.
 
 That is, unless you are also the author of the theme you are using - in which case you still have full control.

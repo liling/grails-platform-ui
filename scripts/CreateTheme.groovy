@@ -6,7 +6,7 @@ def coreLayouts = ['home', 'sidebar', 'report', 'dataentry', 'dialog', 'main']
 void initLayout(base, n) {
     def year = new Date()[Calendar.YEAR]
 
-    new File(new File(base), "${n}.gsp") << """
+    new File(base, "${n}.gsp") << """
 <!DOCTYPE html><html>
     <%-- add a body to this head tag to add any meta / common resources --%>
     <theme:head/>
@@ -14,12 +14,12 @@ void initLayout(base, n) {
         <div class="header">
             <h1><g:layoutTitle default="Untitled"/></h1>
         </div>
-        
+
         <div class="content">
             <%-- add <theme:layoutZone/> tags to the body of the theme:body tag as necessary --%>
             <theme:layoutZone name="body"/>
         </div>
-        
+
         <div class="footer">
             &copy; ${year}
         </div>
@@ -39,7 +39,7 @@ target("create-theme": "Creates the skeleton of a theme") {
 
     def base = "${basedir}/grails-app/views/layouts/themes/${name}"
     ant.mkdir(dir:base)
-    
+
     def templatesBase = "${basedir}/grails-app/views/_themes/${name}"
     ant.mkdir(dir:templatesBase+'/ui')
     ant.mkdir(dir:templatesBase+'/test')
@@ -49,7 +49,7 @@ target("create-theme": "Creates the skeleton of a theme") {
     }
 
     // Create resources
-    def appDir = new File(new File(basedir), 'grails-app')
+    def appDir = new File(basedir, 'grails-app')
     def confDir = new File(appDir, 'conf')
     def resFile = new File(confDir, "${name}ThemeResources.groovy")
     def resSpecimen = new StringBuilder()

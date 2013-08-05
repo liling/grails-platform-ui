@@ -23,8 +23,8 @@ h3. Example template implementation
 
 {docx:xml}
 <a href="${p.siteURL().encodeAsHTML()}">
-  <r:img uri="${logoUri.encodeAsHTML()}" 
+  <r:img uri="${logoUri.encodeAsHTML()}"
     class="${p.joinClasses(values:[classes, logoClass])}"
-    alt="${p.siteName()}" 
+    alt="${p.siteName()}"
     width="${width}" height="${height}"/></a>
 {docx}

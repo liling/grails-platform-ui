@@ -1,4 +1,4 @@
-The UI API provides support for a range of widgets for plugins and applications to use. 
+The UI API provides support for a range of widgets for plugins and applications to use.
 
 For full details see the tag reference section.
 
@@ -20,7 +20,7 @@ The [button|uiTags] tag renders a button with options for:
 
 h3. Field
 
-The [field|uiTags] tag lets you specify a field that must be rendered - usually within a form. 
+The [field|uiTags] tag lets you specify a field that must be rendered - usually within a form.
 
 The UI Set is responsible for all structural markup relating to this field, including any required container nodes, the label, per-field errors (if supported) and hints etc. The output depends entirely on the UI Set in use.
 
@@ -97,7 +97,7 @@ The [message|uiTags] tag is used render text messages such as info and warning m
 </ui:message>
 {docx}
 
-As with most UI tags you can specify text/textArgs attributes or a body. 
+As with most UI tags you can specify text/textArgs attributes or a body.
 
 There are dynamic methods added to controllers by Platform Core plugin to make it easy to display messages to the user, and this mechanism is reused in Platform UI to allow the UI Set to customise the rendering. Just call @displayMessage@ or @displayFlashMessage@ from Platform Core:
 
@@ -183,7 +183,7 @@ The logo file is located by convention.
 
 h3. Navigation
 
-Perhaps the trickiest and most variable page structures are the primary navigation menu and sub 
+Perhaps the trickiest and most variable page structures are the primary navigation menu and sub
 menus. The [primaryNavigation|uiTags], [secondaryNavigation|uiTags] and [navigation|uiTags] provide a markup-neutral way to render these menus in a way befitting the current theme.
 
 {docx:xml}

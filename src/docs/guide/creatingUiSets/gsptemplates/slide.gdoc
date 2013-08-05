@@ -16,7 +16,7 @@ id | Unique slide id - will be passed in by the user or auto generated for you
 slideClass | The CSS class to apply for slides, from UI Set config
 classes | A string containing the list of CSS classes to apply to the outer container
 bodyContent | The body of the slide
-attrs | The attributes to pass through to the outermost container element. 
+attrs | The attributes to pass through to the outermost container element.
 {table}
 
 h3. Example template implementation

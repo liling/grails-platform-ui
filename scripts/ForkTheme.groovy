@@ -1,17 +1,14 @@
 includeTargets << grailsScript('_GrailsInit')
 includeTargets << grailsScript('_GrailsArgParsing')
-
-includeTargets << grailsScript('_GrailsInit')
-includeTargets << grailsScript('_GrailsArgParsing')
 includeTargets << grailsScript("_GrailsPlugins")
 
 def coreLayouts = ['home', 'sidebar', 'report', 'dataentry', 'dialog', 'main']
 
 void discoverThemesInProject(File projectDir, String pluginName, List results) {
-    // Won't work for binary plugins - tough luck people, you reap what you sow 
-    def projectViewsDir = new File(projectDir, 'grails-app'+File.separator+'views')
+    // Won't work for binary plugins - tough luck people, you reap what you sow
+    def projectViewsDir = new File(projectDir, 'grails-app/views')
 
-    def projectLayoutsDir = new File(projectViewsDir, 'layouts'+File.separator+'themes')
+    def projectLayoutsDir = new File(projectViewsDir, 'layouts/themes')
 
     if (projectLayoutsDir.exists()) {
         projectLayoutsDir.eachDir { d ->
@@ -26,10 +23,10 @@ def discoverThemes() {
     for (plugin in pluginInfos) {
         discoverThemesInProject(plugin.pluginDir.file, plugin.name, results)
     }
-    
+
     // Now check project's own themes
     discoverThemesInProject(new File(basedir), null, results)
-    
+
     return results
 }
 
@@ -37,8 +34,8 @@ target("fork-theme": "Clones an installed theme into your application for custom
     depends(checkVersion, parseArguments)
 
     def name = argsMap.params ? argsMap.params[0] : null
-    def newName 
-    
+    def newName
+
     def themes = discoverThemes()
 
     println """
@@ -57,12 +54,12 @@ to manually clone the resources provided by that theme and perhaps other Config 
     // Get the theme name and new theme name
     if (!name || !(themes.find { it.name == name}) ) {
         name = null
-        
+
         println "Available themes are:"
         themes.each { t ->
             println "${t.name.padRight(30)} (provided by ${t.plugin ? t.plugin : 'your application'})"
         }
-        
+
         while (name == null) {
             ant.input(message:"What is the name of the theme you would like to fork into your project?", defaultValue:'', addProperty:'themeName')
             name = ant.project.properties.themeName
@@ -72,7 +69,7 @@ to manually clone the resources provided by that theme and perhaps other Config 
             }
         }
     }
-        
+
     ant.input(message:"Choose a name for your new forked theme", defaultValue:name+'-fork', addProperty:'newName')
     newName = ant.project.properties.newName
 
@@ -89,12 +86,12 @@ to manually clone the resources provided by that theme and perhaps other Config 
         fileset(dir:srcTheme.layoutsDir)
     }
     ant.copy(toDir:newThemeTemplatesDir) {
-        fileset(dir:new File(srcTheme.viewsDir, '_themes'+File.separator+srcTheme.name))
+        fileset(dir:new File(srcTheme.viewsDir, '_themes/' + srcTheme.name))
     }
-    
+
     // Now do the Resources part
     // Create resources
-    def appDir = new File(new File(basedir), 'grails-app')
+    def appDir = new File(basedir, 'grails-app')
     def confDir = new File(appDir, 'conf')
     def newNameCaps = newName[0].toUpperCase() + newName[1..-1]
     def resFile = new File(confDir, "${newNameCaps}ThemeResources.groovy")
@@ -104,7 +101,7 @@ to manually clone the resources provided by that theme and perhaps other Config 
 modules = {
     'theme.${newName}' {
         dependsOn 'theme.${name}'
-        
+
         // Add your global CSS/JS files here
     }
 """
@@ -118,7 +115,7 @@ modules = {
     }
     resSpecimen << "}"
     resFile << resSpecimen
-    
+
     println """
 Your theme "${newName}" has been created.
 

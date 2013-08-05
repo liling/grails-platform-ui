@@ -24,7 +24,7 @@ h4. Field Groups
 Forms often arrange fields into groups, typically with @<fieldset>@ in HTML. The structural markup for this is abstracted using the [fieldGroup|uiTags] tag:
 
 {docx:xml}
-<ui:form controller="book"> 
+<ui:form controller="book">
   <ui:fieldGroup>
      <ui:field name="firstName"/>
      <ui:field name="lastName"/>

@@ -17,21 +17,17 @@
 package org.grails.plugin.platform.controllers
 
 class PlatformUiController {
-    
+
     def grailsUISets
 
-    def index = {
-    }
+    def index = {}
 
     def themes = {
         displayMessage("A test message from the controller")
     }
-    
+
     def uisets = {
         displayMessage("A test message from the controller")
         render(view:'ui', model:[uiSets:grailsUISets])
     }
 }
-
-
-

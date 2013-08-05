@@ -19,7 +19,7 @@ You can make your plugin UI adaptive based on the theme or UI set in user, or th
 
 * Your plugin can provide resource "overrides" for resource modules provided by specific UI sets or themes. You can replace existing resources or monkey in your own code into a module by adding a dependency.
 * Your plugin can detect presence of plugins using the Grails [plugin:isAvailable|http://grails.org/doc/2.0.4/ref/Tags/isAvailable.html] tag
-* Your plugin can detect the current Theme and UI Set in use in the request using the ui:[ifSetActive|uiTags] and theme:[name|themeTags] tags. 
+* Your plugin can detect the current Theme and UI Set in use in the request using the ui:[ifSetActive|uiTags] and theme:[name|themeTags] tags.
 
 h3. Customising UI provided by a plugin
 

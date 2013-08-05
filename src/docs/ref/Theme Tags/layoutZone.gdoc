@@ -2,7 +2,7 @@ h1. theme:layoutZone
 
 h2. Purpose
 
-Renders the content for a given zone. Used by Theme layouts to place the parts of the application's content within the structural HTML of the page. 
+Renders the content for a given zone. Used by Theme layouts to place the parts of the application's content within the structural HTML of the page.
 
 See [Content Zones|guide:themeZones] for details of how the content is actually resolved.
 

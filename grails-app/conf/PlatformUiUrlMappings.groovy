@@ -17,14 +17,13 @@
 import grails.util.Environment
 
 class PlatformUiUrlMappings {
-    static mappings = {
-        if ( Environment.current == Environment.DEVELOPMENT) {
-            name platformUiNormal: "/platform/ui/$action?/$id?"(controller:'platformUi')
-            // Cast a magic spell
-    		name platformUiFancy: "/%F0%9F%8F%86/ui/$action?/$id?" {
-    		    controller = 'platformUi'
-    		}
-    	}
-    	
+	static mappings = {
+		if (Environment.isDevelopmentMode()) {
+			name platformUiNormal: "/platform/ui/$action?/$id?"(controller:'platformUi')
+			// Cast a magic spell
+			name platformUiFancy: "/%F0%9F%8F%86/ui/$action?/$id?" {
+				controller = 'platformUi'
+			}
+		}
 	}
 }

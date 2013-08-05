@@ -65,7 +65,7 @@ If not using a bean:
 # i18n message retrieved using field.<name>.label
 # i18n message retrieved using <name>.label
 # the value of the @name@ attributed converted to "This Is My Field" natural language format
- 
+
 h2. Localization of hints
 
 This is done the same as labels, but with ".hint" instead of ".label" at the end of the keys
