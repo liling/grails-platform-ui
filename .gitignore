@@ -1,3 +1,5 @@
+#       General         #
+#########################
 .DS_Store
 plugin.xml
 target/
@@ -5,3 +7,9 @@ target/
 grails-platform-ui-*.zip
 web-app/WEB-INF
 .settings
+
+# IntelliJ Config Files #
+#########################
+*.iml
+.idea/*
+!.idea/codeStyleSettings.xml
