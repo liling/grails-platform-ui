@@ -20,7 +20,7 @@ import org.grails.plugin.platform.views.Grails13ViewFinder
 import org.springframework.core.io.FileSystemResource
 
 class PlatformUiGrailsPlugin {
-    def version = "1.0.RC5-SNAPSHOT"
+    def version = "1.0.RC4-SNAPSHOT"
     def grailsVersion = "1.3 > *"
 
     def pluginExcludes = [
