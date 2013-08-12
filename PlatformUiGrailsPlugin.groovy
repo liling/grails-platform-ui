@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import org.grails.plugin.platform.themes.Themes
 import org.grails.plugin.platform.ui.UISets
 import org.grails.plugin.platform.views.Grails13ViewFinder
@@ -24,20 +25,21 @@ class PlatformUiGrailsPlugin {
     def grailsVersion = "1.3 > *"
 
     def pluginExcludes = [
-        "grails-app/conf/TestResources.groovy",
-        "grails-app/i18n/test.properties",
-        "grails-app/src/groovy/org/grails/plugin/platform/test/**",
-        "src/docs/**"
+            "grails-app/conf/TestResources.groovy",
+            "grails-app/i18n/test.properties",
+            "grails-app/src/groovy/org/grails/plugin/platform/test/**",
+            "src/docs/**",
+            "testapps.config.groovy"
     ]
 
     def title = "Plugin Platform UI"
     def description = 'Platform UI - abstracted UI elements and theming for plugin/application interoperability'
 
     def watchedResources = [
-        "file:./grails-app/views/_ui/**/*.gsp",
-        "file:./grails-app/views/_themes/**/*.gsp",
-        "file:./grails-app/views/layouts/themes/**/*.gsp"
-        // We don't monitor plugins, it is only needed for inline plugins and slows it all down
+            "file:./grails-app/views/_ui/**/*.gsp",
+            "file:./grails-app/views/_themes/**/*.gsp",
+            "file:./grails-app/views/layouts/themes/**/*.gsp"
+            // We don't monitor plugins, it is only needed for inline plugins and slows it all down
     ]
 
     def loadAfter = ['platformCore', 'logging']
@@ -49,11 +51,11 @@ class PlatformUiGrailsPlugin {
     def organization = [name: "Grailsrocks", url: "http://grailsrocks.com/"]
 
     def developers = [
-        [name: "Marc Palmer", email: "marc@grailsrocks.com"],
-        [name: "Dean Del Ponte", email: "dean.delponte@gmail.com"]
+            [name: "Marc Palmer", email: "marc@grailsrocks.com"],
+            [name: "Dean Del Ponte", email: "dean.delponte@gmail.com"]
     ]
 
-    def issueManagement = [ system: "JIRA", url: "http://jira.grails.org/browse/GPPLATUI" ]
+    def issueManagement = [system: "JIRA", url: "http://jira.grails.org/browse/GPPLATUI"]
 
     def scm = [url: "https://github.com/MerryCoders/grails-platform-ui"]
 
