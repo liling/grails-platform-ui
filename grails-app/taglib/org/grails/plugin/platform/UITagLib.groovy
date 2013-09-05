@@ -73,13 +73,15 @@ class UITagLib implements InitializingBean {
     }
 
     def ifSetActive = { attrs, body ->
-        if (pluginRequestAttributes['uiset.candidates']?.contains(attrs.name)) {
+        renderResources()
+        if (pluginRequestAttributes['uiset.candidates']?.name?.contains(attrs.name)) {
             out << body()
         }
     }
 
     def ifSetNotActive = { attrs, body ->
-        if (!pluginRequestAttributes['uiset.candidates']?.contains(attrs.name)) {
+        renderResources()
+        if (!pluginRequestAttributes['uiset.candidates']?.name?.contains(attrs.name)) {
             out << body()
         }
     }
