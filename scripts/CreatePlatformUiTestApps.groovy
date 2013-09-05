@@ -14,6 +14,8 @@ pluginVersion = null
 pluginZip = null
 testprojectRoot = null
 deleteAll = false
+dependencies = null
+plugins = null
 
 target(createPlatformUiTestApp: 'Creates test apps for manual testing') {
 
@@ -28,61 +30,6 @@ target(createPlatformUiTestApp: 'Creates test apps for manual testing') {
         createApp()
         installPlugins()
     }
-}
-
-private void callGrails(String grailsHome, String dir, String env, String action, extraArgs = null) {
-    ant.exec(executable: "$grailsHome/bin/grails", dir: dir, failonerror: 'true') {
-        ant.env key: 'GRAILS_HOME', value: grailsHome
-        ant.arg value: env
-        ant.arg value: action
-        extraArgs?.call()
-    }
-}
-
-private void installPlugins() {
-
-    File buildConfig = new File(testprojectRoot, 'grails-app/conf/BuildConfig.groovy')
-    String contents = buildConfig.text
-
-    contents = contents.replace('grails.project.class.dir = "target/classes"', "grails.project.work.dir = 'target'")
-    contents = contents.replace('grails.project.test.class.dir = "target/test-classes"', '')
-    contents = contents.replace('grails.project.test.reports.dir = "target/test-reports"', '')
-    contents = contents.replace("//mavenLocal()", "mavenLocal()")
-    contents = contents.replace('plugins {', 'plugins {\n        compile ":platform-ui:' + pluginVersion + '"\n        compile ":bootstrap-ui:1.0.RC4"')
-
-    buildConfig.withWriter { it.writeLine contents }
-
-//	callGrails(grailsHome, testprojectRoot, 'dev', 'install-plugin') {
-//		ant.arg value: pluginZip.absolutePath
-//	}
-}
-
-private void createApp() {
-
-    ant.mkdir dir: projectDir
-
-    deleteDir testprojectRoot
-    deleteDir "$dotGrails/projects/$appName"
-
-    callGrails(grailsHome, projectDir, 'dev', 'create-app') {
-        ant.arg value: appName
-    }
-}
-
-private void deleteDir(String path) {
-    if (new File(path).exists() && !deleteAll) {
-        String code = "confirm.delete.$path"
-        ant.input message: "$path exists, ok to delete?", addproperty: code, validargs: 'y,n,a'
-        def result = ant.antProject.properties[code]
-        if ('a'.equalsIgnoreCase(result)) {
-            deleteAll = true
-        } else if (!'y'.equalsIgnoreCase(result)) {
-            printMessage "\nNot deleting $path"
-            exit 1
-        }
-    }
-
-    ant.delete dir: path
 }
 
 private void init(String name, config) {
@@ -108,6 +55,64 @@ private void init(String name, config) {
 
     grailsVersion = config.grailsVersion
     dotGrails = config.dotGrails + '/' + grailsVersion
+
+    dependencies = config.dependencies
+    plugins = config.plugins
+}
+
+private void createApp() {
+
+    ant.mkdir dir: projectDir
+
+    deleteDir testprojectRoot
+    deleteDir "$dotGrails/projects/$appName"
+
+    callGrails(grailsHome, projectDir, 'dev', 'create-app') {
+        ant.arg value: appName
+    }
+}
+
+private void installPlugins() {
+
+    File buildConfig = new File(testprojectRoot, 'grails-app/conf/BuildConfig.groovy')
+    String contents = buildConfig.text
+
+    contents = contents.replace('grails.project.class.dir = "target/classes"', "grails.project.work.dir = 'target'")
+    contents = contents.replace('grails.project.test.class.dir = "target/test-classes"', '')
+    contents = contents.replace('grails.project.test.reports.dir = "target/test-reports"', '')
+    contents = contents.replace("//mavenLocal()", "mavenLocal()")
+    contents = contents.replace('plugins {', 'plugins {\n        compile ":platform-ui:' + pluginVersion + '"\n        compile ":bootstrap-ui:1.0.RC4"\n' + plugins)
+    contents = contents.replace('dependencies {', 'dependencies { ' + dependencies )
+    buildConfig.withWriter { it.writeLine contents }
+
+//	callGrails(grailsHome, testprojectRoot, 'dev', 'install-plugin') {
+//		ant.arg value: pluginZip.absolutePath
+//	}
+}
+
+private void callGrails(String grailsHome, String dir, String env, String action, extraArgs = null) {
+    ant.exec(executable: "$grailsHome/bin/grails", dir: dir, failonerror: 'true') {
+        ant.env key: 'GRAILS_HOME', value: grailsHome
+        ant.arg value: env
+        ant.arg value: action
+        extraArgs?.call()
+    }
+}
+
+private void deleteDir(String path) {
+    if (new File(path).exists() && !deleteAll) {
+        String code = "confirm.delete.$path"
+        ant.input message: "$path exists, ok to delete?", addproperty: code, validargs: 'y,n,a'
+        def result = ant.antProject.properties[code]
+        if ('a'.equalsIgnoreCase(result)) {
+            deleteAll = true
+        } else if (!'y'.equalsIgnoreCase(result)) {
+            printMessage "\nNot deleting $path"
+            exit 1
+        }
+    }
+
+    ant.delete dir: path
 }
 
 private void error(String message) {

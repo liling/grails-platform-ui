@@ -1,16 +1,16 @@
 String version = '1.0.RC5-SNAPSHOT'
-String grailsHomeRoot = '/path/to/your/grails/home'
-String dotGrailsCommon = '/path/to/.grails/in/your/home/directory'
-String projectDirCommon = '/path/to/target/directory/of/test/apps'
+String grailsHomeRoot = '/Users/deandelponte/.gvm/grails'
+String dotGrailsCommon = '/Users/deandelponte/.grails'
+String projectDirCommon = '/Users/deandelponte/code/testapps/platform-ui'
 
 v13 {
-
     grailsVersion = '1.3.9'
     pluginVersion = version
     dotGrails = dotGrailsCommon
     projectDir = projectDirCommon
     grailsHome = grailsHomeRoot + '/' + grailsVersion
-
+    plugins = ''
+    dependencies = ''
 }
 
 v20 {
@@ -19,7 +19,8 @@ v20 {
     dotGrails = dotGrailsCommon
     projectDir = projectDirCommon
     grailsHome = grailsHomeRoot + '/' + grailsVersion
-
+    plugins = '        test ":spock:0.7"'
+    dependencies = ''
 }
 
 v21 {
@@ -28,6 +29,8 @@ v21 {
     dotGrails = dotGrailsCommon
     projectDir = projectDirCommon
     grailsHome = grailsHomeRoot + '/' + grailsVersion
+    plugins = '        test ":spock:0.7"'
+    dependencies = ''
 }
 
 v22 {
@@ -36,5 +39,9 @@ v22 {
     dotGrails = dotGrailsCommon
     projectDir = projectDirCommon
     grailsHome = grailsHomeRoot + '/' + grailsVersion
+    plugins = """        test(":spock:0.7") {
+                exclude "spock-grails-support"
+            }"""
+    dependencies = 'test "org.spockframework:spock-grails-support:0.7-groovy-2.0"'
 }
 
