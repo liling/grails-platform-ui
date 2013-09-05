@@ -18,14 +18,13 @@ package org.grails.plugin.platform
 
 import grails.util.Environment
 import grails.util.GrailsNameUtils
-
-import java.util.concurrent.ConcurrentHashMap
-
 import org.codehaus.groovy.grails.plugins.GrailsPlugin
 import org.grails.plugin.platform.ui.UITagException
 import org.grails.plugin.platform.util.TagLibUtils
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.web.servlet.support.RequestContextUtils as RCU
+
+import java.util.concurrent.ConcurrentHashMap
 
 class UITagLib implements InitializingBean {
     static namespace = "ui"
@@ -67,7 +66,7 @@ class UITagLib implements InitializingBean {
         for (ui in uiSets) {
             uiModules << "ui.${ui.name}"
         }
-        out << r.require(modules:uiModules, strict:false)
+        out << r.require(modules: uiModules, strict: false)
         pluginRequestAttributes['uiset.candidates'] = uiSets
         pluginRequestAttributes['uiset.loaded'] = true
     }
@@ -155,13 +154,13 @@ class UITagLib implements InitializingBean {
         def buttonClass = grailsUISets.getUICSSClass(request, 'button', 'button')
 
         out << renderUITemplate('button', [
-            attrs:attrs,
-            buttonClass:buttonClass,
-            classes:classes,
-            kind:type,
-            text:text,
-            mode:mode,
-            disabled:disabled])
+                attrs: attrs,
+                buttonClass: buttonClass,
+                classes: classes,
+                kind: type,
+                text: text,
+                mode: mode,
+                disabled: disabled])
     }
 
     public renderUITemplate(String templateName, Map model) {
@@ -171,7 +170,7 @@ class UITagLib implements InitializingBean {
         }
         def t = grailsUISets.getTemplateView(request, templateName)
         try {
-            def output = g.render(plugin:t.plugin, template:t.path, model:model)
+            def output = g.render(plugin: t.plugin, template: t.path, model: model)
             return output
         } catch (Throwable e) {
             log.error "Could not render UI tag template $templateName from UI Set $t?.owner", e
@@ -187,7 +186,7 @@ class UITagLib implements InitializingBean {
         renderResources()
         def t = grailsUISets.getTemplateView(request, templateName, false)
         try {
-            return g.render(plugin:t.plugin, template:t.path, model:model)
+            return g.render(plugin: t.plugin, template: t.path, model: model)
         } catch (Throwable e) {
             throw new UITagException(templateName, t.owner, e)
         }
@@ -201,14 +200,14 @@ class UITagLib implements InitializingBean {
 
         def tabBodiesBuffer = []
         // collect up the bodies and tab titles
-        def bodyContent = body(_ui_tabBodies:tabBodiesBuffer)
+        def bodyContent = body(_ui_tabBodies: tabBodiesBuffer)
         // Output the list of tabs
         out << renderUITemplate('tabs', [
-            id:attrs.id ?: TagLibUtils.newUniqueId(request),
-            attrs:attrs,
-            classes:classes,
-            tabsClass:tabsClass,
-            tabs:tabBodiesBuffer
+                id: attrs.id ?: TagLibUtils.newUniqueId(request),
+                attrs: attrs,
+                classes: classes,
+                tabsClass: tabsClass,
+                tabs: tabBodiesBuffer
         ])
     }
 
@@ -230,7 +229,7 @@ class UITagLib implements InitializingBean {
 
         def title = attrs.remove('title')
         if (title) {
-            title = p.text(code:title.toString(), args:attrs.titleArgs, default:title).toString()
+            title = p.text(code: title.toString(), args: attrs.titleArgs, default: title).toString()
         }
 
         def classes = attrs.remove('class')
@@ -245,22 +244,22 @@ class UITagLib implements InitializingBean {
 
         // State saved for the tabs tag to use when rendering this tab's content
         def bodyPanelArgs = [
-            id:tabId,
-            title:title,
-            link:link,
-            active:active,
-            attrs:attrs
+                id: tabId,
+                title: title,
+                link: link,
+                active: active,
+                attrs: attrs
         ]
 
         bodyPanelArgs.bodyContent = renderUITemplate('tab', [
-            id:tabId,
-            classes:classes,
-            attrs:attrs,
-            title:title,
-            active:active,
-            tabClass:tabClass,
-            link:link,
-            bodyContent: link ? null : body()
+                id: tabId,
+                classes: classes,
+                attrs: attrs,
+                title: title,
+                active: active,
+                tabClass: tabClass,
+                link: link,
+                bodyContent: link ? null : body()
         ])
 
         buffer << bodyPanelArgs
@@ -271,25 +270,25 @@ class UITagLib implements InitializingBean {
         def classes = attrs.remove('class')
         def title = attrs.remove('title')
         if (title) {
-            title = p.text(code:title.toString(), args:attrs.titleArgs, default:title).toString()
+            title = p.text(code: title.toString(), args: attrs.titleArgs, default: title).toString()
         }
         def blockClass = grailsUISets.getUICSSClass(request, 'block', 'block')
         out << renderUITemplate('block', [
-            title:title,
-            bodyContent:body(),
-            classes:classes,
-            blockClass:blockClass,
-            attrs:attrs])
+                title: title,
+                bodyContent: body(),
+                classes: classes,
+                blockClass: blockClass,
+                attrs: attrs])
     }
 
     def image = { attrs ->
         def classes = attrs.remove('class')
         def title = attrs.remove('title')
         if (title) {
-            title = p.text(code:title.toString(), args:attrs.titleArgs, default:title).toString()
+            title = p.text(code: title.toString(), args: attrs.titleArgs, default: title).toString()
         }
         def imageClass = grailsUISets.getUICSSClass(request, 'image', 'image')
-        out << renderUITemplate('image', [classes:classes, attrs:attrs, imageClass:imageClass, title:title])
+        out << renderUITemplate('image', [classes: classes, attrs: attrs, imageClass: imageClass, title: title])
     }
 
     def avatar = { attrs ->
@@ -304,13 +303,13 @@ class UITagLib implements InitializingBean {
         }
         def imageClass = grailsUISets.getUICSSClass(request, 'avatar', 'avatar')
         out << renderUITemplate('avatar', [
-            user:user,
-            defaultSrc:defaultSrc,
-            rating:rating,
-            size:size,
-            avatarClass:imageClass,
-            classes:classes,
-            attrs:attrs])
+                user: user,
+                defaultSrc: defaultSrc,
+                rating: rating,
+                size: size,
+                avatarClass: imageClass,
+                classes: classes,
+                attrs: attrs])
     }
 
     /**
@@ -322,14 +321,14 @@ class UITagLib implements InitializingBean {
     def primaryNavigation = { attrs, body ->
         def classes = attrs.remove('class')
         def navClass = grailsUISets.getUICSSClass(request, 'primaryNavigation', 'nav primary')
-        out << renderUITemplate('primaryNavigation', [classes:classes, attrs:attrs, primaryNavigationClass:navClass])
+        out << renderUITemplate('primaryNavigation', [classes: classes, attrs: attrs, primaryNavigationClass: navClass])
     }
 
     def secondaryNavigation = { attrs, body ->
         def classes = attrs.remove('class')
 
         def navClass = grailsUISets.getUICSSClass(request, 'secondaryNavigation', 'nav secondary')
-        out << renderUITemplate('secondaryNavigation', [classes:classes, attrs:attrs, secondaryNavigationClass:navClass])
+        out << renderUITemplate('secondaryNavigation', [classes: classes, attrs: attrs, secondaryNavigationClass: navClass])
     }
 
     def navigation = { attrs, body ->
@@ -337,21 +336,21 @@ class UITagLib implements InitializingBean {
         def scope = attrs.remove('scope')
 
         def navClass = grailsUISets.getUICSSClass(request, 'navigation', 'nav')
-        out << renderUITemplate('navigation', [classes:classes, attrs:attrs, scope:scope, navigationClass:navClass])
+        out << renderUITemplate('navigation', [classes: classes, attrs: attrs, scope: scope, navigationClass: navClass])
     }
 
     def displayMessage = { attrs, body ->
         def searchScopes = [
-            grailsUiExtensions.getPluginRequestAttributes('platformCore'),
-            grailsUiExtensions.getPluginFlash('platformCore')
+                grailsUiExtensions.getPluginRequestAttributes('platformCore'),
+                grailsUiExtensions.getPluginFlash('platformCore')
         ]
         for (scope in searchScopes) {
             def msgParams = grailsUiExtensions.getDisplayMessage(scope)
             if (msgParams) {
                 def msgAttribs = [
-                    text:msgParams.text,
-                    textArgs:msgParams.args,
-                    type:msgParams.type
+                        text: msgParams.text,
+                        textArgs: msgParams.args,
+                        type: msgParams.type
                 ]
                 def msg = ui.message(msgAttribs)
                 out << msg
@@ -368,11 +367,11 @@ class UITagLib implements InitializingBean {
             def classes = attrs.remove('class')
             def text = getMessageOrBody(attrs, body)
             def output = renderUITemplate('message', [
-                bodyContent:text,
-                type:type,
-                classes:classes,
-                attrs:attrs,
-                messageClass:messageClass])
+                    bodyContent: text,
+                    type: type,
+                    classes: classes,
+                    attrs: attrs,
+                    messageClass: messageClass])
             out << output
         }
     }
@@ -385,7 +384,7 @@ class UITagLib implements InitializingBean {
     }
 
     private doHeading(int offset, attrs, body) {
-        int level = pluginRequestAttributes[BASE_HEADING_ATTRIBUTE] ?: (int)0
+        int level = pluginRequestAttributes[BASE_HEADING_ATTRIBUTE] ?: (int) 0
         level += offset
 
         // Capture message first, as it modifies attrs
@@ -398,19 +397,19 @@ class UITagLib implements InitializingBean {
     }
 
     def h1 = { attrs, body ->
-        doHeading((int)1, attrs, body)
+        doHeading((int) 1, attrs, body)
     }
 
     def h2 = { attrs, body ->
-        doHeading((int)2, attrs, body)
+        doHeading((int) 2, attrs, body)
     }
 
     def h3 = { attrs, body ->
-        doHeading((int)3, attrs, body)
+        doHeading((int) 3, attrs, body)
     }
 
     def h4 = { attrs, body ->
-        doHeading((int)4, attrs, body)
+        doHeading((int) 4, attrs, body)
     }
 
     def paginate = { attrs ->
@@ -437,7 +436,7 @@ class UITagLib implements InitializingBean {
         if (params.sort) linkParams.sort = params.sort
         if (params.order) linkParams.order = params.order
 
-        def linkTagAttrs = [action:action]
+        def linkTagAttrs = [action: action]
         if (attrs.controller) {
             linkTagAttrs.controller = attrs.controller
         }
@@ -457,12 +456,12 @@ class UITagLib implements InitializingBean {
 
         def items = []
         def prevItem = [
-            enabled:false,
-            text:(attrs.prev ?: messageSource.getMessage('paginate.prev', null, messageSource.getMessage('default.paginate.prev', null, 'Previous', locale), locale))
+                enabled: false,
+                text: (attrs.prev ?: messageSource.getMessage('paginate.prev', null, messageSource.getMessage('default.paginate.prev', null, 'Previous', locale), locale))
         ]
         def nextItem = [
-            enabled:false,
-            text:(attrs.next ?: messageSource.getMessage('paginate.next', null, messageSource.getMessage('default.paginate.next', null, 'Next', locale), locale))
+                enabled: false,
+                text: (attrs.next ?: messageSource.getMessage('paginate.next', null, messageSource.getMessage('default.paginate.next', null, 'Next', locale), locale))
         ]
 
         // display previous link when not on firststep
@@ -496,7 +495,7 @@ class UITagLib implements InitializingBean {
             // display firststep link when beginstep is not firststep
             if (beginstep > firststep) {
                 linkParams.offset = 0
-                earlierItem = [earlier:true, link:createLink(linkTagAttrs.clone()), text: firststep]
+                earlierItem = [earlier: true, link: createLink(linkTagAttrs.clone()), text: firststep]
             }
 
             // display paginate steps
@@ -504,18 +503,17 @@ class UITagLib implements InitializingBean {
                 linkParams.offset = (i - 1) * max
                 def link = createLink(linkTagAttrs.clone())
                 if (currentstep == i) {
-                    items << [active:true, link:link, text: i]
-                }
-                else {
-                    items << [link:link, text: i]
+                    items << [active: true, link: link, text: i]
+                } else {
+                    items << [link: link, text: i]
                 }
             }
 
             // display laststep link when endstep is not laststep
             if (endstep < laststep) {
-                linkParams.offset = (laststep -1) * max
-                laterItem = [later:true, link:createLink(linkTagAttrs.clone()), text: laststep]
-                items << [link:createLink(linkTagAttrs.clone()), text: laststep]
+                linkParams.offset = (laststep - 1) * max
+                laterItem = [later: true, link: createLink(linkTagAttrs.clone()), text: laststep]
+                items << [link: createLink(linkTagAttrs.clone()), text: laststep]
             }
         }
 
@@ -529,13 +527,13 @@ class UITagLib implements InitializingBean {
         def paginateClass = grailsUISets.getUICSSClass(request, 'paginate', 'paginate')
 
         out << renderUITemplate('paginate', [
-            paginateClass:paginateClass,
-            classes:attrs.'class',
-            items:items,
-            next:nextItem.enabled ? nextItem : null,
-            prev:prevItem.enabled ? prevItem : null,
-            earlier:earlierItem,
-            later:laterItem
+                paginateClass: paginateClass,
+                classes: attrs.'class',
+                items: items,
+                next: nextItem.enabled ? nextItem : null,
+                prev: prevItem.enabled ? prevItem : null,
+                earlier: earlierItem,
+                later: laterItem
         ])
     }
 
@@ -544,14 +542,14 @@ class UITagLib implements InitializingBean {
         def formClass = grailsUISets.getUICSSClass(request, 'form', 'form')
 
         def formBodiesBuffer = [:]
-        def bodyContent = body(_ui_formBodies:formBodiesBuffer)
+        def bodyContent = body(_ui_formBodies: formBodiesBuffer)
 
         out << renderUITemplate('form', [
-            attrs:attrs,
-            bodyContent:bodyContent,
-            actionsContent:formBodiesBuffer.actions,
-            formClass:formClass,
-            classes:classes])
+                attrs: attrs,
+                bodyContent: bodyContent,
+                actionsContent: formBodiesBuffer.actions,
+                formClass: formClass,
+                classes: classes])
     }
 
     def actions = { attrs, body ->
@@ -563,10 +561,10 @@ class UITagLib implements InitializingBean {
         }
 
         bodies.actions = renderUITemplate('actions', [
-            attrs:attrs,
-            bodyContent:body(),
-            actionsClass: actionsClass,
-            classes:classes])
+                attrs: attrs,
+                bodyContent: body(),
+                actionsClass: actionsClass,
+                classes: classes])
     }
 
     def input = { attrs, body ->
@@ -586,24 +584,24 @@ class UITagLib implements InitializingBean {
         def invalidClass = grailsUISets.getUICSSClass(request, 'invalid', 'invalid')
         def inputClass = grailsUISets.getUICSSClass(request, 'input', 'input')
 
-        def classes = p.joinClasses(values:[
+        def classes = p.joinClasses(values: [
                 attrs.remove('class'),
                 inputClass,
                 invalid ? invalidClass : null])
 
         def args = [
-            attrs:attrs,
-            classes:classes,
-            inputClass:inputClass,
-            invalidClass:invalidClass,
+                attrs: attrs,
+                classes: classes,
+                inputClass: inputClass,
+                invalidClass: invalidClass,
 
-            id:attrs.id,
-            invalid:invalid,
-            required:required,
-            name:name,
-            beanObject:bean, // have to use safe name - "bean" clashes with BeanFields see http://jira.grails.org/browse/GRAILS-8870
-            value:value,
-            type:type
+                id: attrs.id,
+                invalid: invalid,
+                required: required,
+                name: name,
+                beanObject: bean, // have to use safe name - "bean" clashes with BeanFields see http://jira.grails.org/browse/GRAILS-8870
+                value: value,
+                type: type
         ]
 
         out << renderUITemplate('input', args)
@@ -643,7 +641,7 @@ class UITagLib implements InitializingBean {
 
     String resolvePropertyName(String path) {
         def period = path.lastIndexOf('.')
-        return (period != -1) && (period < path.size()-1) ? path[period+1..-1] : path
+        return (period != -1) && (period < path.size() - 1) ? path[period + 1..-1] : path
     }
 
     private resolveErrorsForField(rootBean, String path) {
@@ -653,6 +651,7 @@ class UITagLib implements InitializingBean {
             []
         }
     }
+
     def errors = { attrs ->
         resolveErrorsForField(attrs.bean, attrs.name)
     }
@@ -703,7 +702,7 @@ class UITagLib implements InitializingBean {
             }
             if (labelCode != null) {
                 def labelArgs = attrs.remove('labelArgs')
-                label = p.text(code:labelCode ?: "field.label.${i18nname}", default:labelCode, args:labelArgs).toString()
+                label = p.text(code: labelCode ?: "field.label.${i18nname}", default: labelCode, args: labelArgs).toString()
             }
         }
 
@@ -712,7 +711,7 @@ class UITagLib implements InitializingBean {
         if (!customHint) {
             def hintText = attrs.remove('hint')
             def hintArgs = attrs.remove('hintArgs')
-            hint = hintText != null ? p.text(code:hintText ?: "field.hint.${i18name}", default:hintText, args:hintArgs).toString() : null
+            hint = hintText != null ? p.text(code: hintText ?: "field.hint.${i18name}", default: hintText, args: hintArgs).toString() : null
         }
 
         if (!customErrors) {
@@ -720,7 +719,7 @@ class UITagLib implements InitializingBean {
             if (errors == null && beanObject) {
                 def fieldErrors = resolveErrorsForField(beanObject, name)
                 errors = fieldErrors.collect { err ->
-                    p.text(codes:err.codes, args: err.arguments as List)
+                    p.text(codes: err.codes, args: err.arguments as List)
                 }
             }
         }
@@ -737,26 +736,26 @@ class UITagLib implements InitializingBean {
         }
 
         def args = [
-            attrs:attrs,
-            invalidClass:invalidClass,
-            fieldClass:fieldClass,
-            classes:classes,
-            id:attrs.id,
+                attrs: attrs,
+                invalidClass: invalidClass,
+                fieldClass: fieldClass,
+                classes: classes,
+                id: attrs.id,
 
-            customLabel:customLabel,
-            customHint:customHint,
-            customInput:customInput,
-            customErrors:customErrors,
-            input:input,
-            errors:errors,
-            label:label,
-            hint:hint,
-            invalid:invalid,
-            required:required,
-            name:name,
-            beanObject:beanObject, // have to use safe name - "bean" clashes with BeanFields see http://jira.grails.org/browse/GRAILS-8870
-            value:value,
-            type:type
+                customLabel: customLabel,
+                customHint: customHint,
+                customInput: customInput,
+                customErrors: customErrors,
+                input: input,
+                errors: errors,
+                label: label,
+                hint: hint,
+                invalid: invalid,
+                required: required,
+                name: name,
+                beanObject: beanObject, // have to use safe name - "bean" clashes with BeanFields see http://jira.grails.org/browse/GRAILS-8870
+                value: value,
+                type: type
         ]
 
         out << renderUITemplate('field', args)
@@ -765,7 +764,7 @@ class UITagLib implements InitializingBean {
     def fieldGroup = { attrs, body ->
         def classes = attrs.remove('class')
         def fieldGroupClass = grailsUISets.getUICSSClass(request, 'fieldGroup', 'fieldGroup')
-        out << renderUITemplate('fieldGroup', [attrs:attrs, bodyContent:body(), fieldGroupClass: fieldGroupClass, classes:classes])
+        out << renderUITemplate('fieldGroup', [attrs: attrs, bodyContent: body(), fieldGroupClass: fieldGroupClass, classes: classes])
     }
 
     def cssClass = { attrs ->
@@ -778,10 +777,10 @@ class UITagLib implements InitializingBean {
         def classes = attrs.remove('class')
         def tableClass = grailsUISets.getUICSSClass(request, 'table', 'table')
         out << renderUITemplate('table', [
-            attrs:attrs,
-            bodyContent:body(tableBodyRow:(int)0),
-            tableClass: tableClass,
-            classes:classes])
+                attrs: attrs,
+                bodyContent: body(tableBodyRow: (int) 0),
+                tableClass: tableClass,
+                classes: classes])
     }
 
     def tr = { attrs, body ->
@@ -790,14 +789,14 @@ class UITagLib implements InitializingBean {
         def classes = attrs.remove('class')
         def oddClass = grailsUISets.getUICSSClass(request, 'trOdd', 'odd')
         def evenClass = grailsUISets.getUICSSClass(request, 'trEven', 'even')
-        boolean odd = idx % (int)2
+        boolean odd = idx % (int) 2
         out << renderUITemplate('tr', [
-            attrs:attrs,
-            bodyContent:body(),
-            oddEvenClass:odd ? oddClass : evenClass,
-            row:idx,
-            classes:classes,
-            odd:odd
+                attrs: attrs,
+                bodyContent: body(),
+                oddEvenClass: odd ? oddClass : evenClass,
+                row: idx,
+                classes: classes,
+                odd: odd
         ])
     }
 
@@ -807,15 +806,15 @@ class UITagLib implements InitializingBean {
         def otherAttrs = TagLibUtils.attrsToString(attrs)
         def thClass = grailsUISets.getUICSSClass(request, 'th', 'th')
         out << renderUITemplate('th', [
-            thClass:thClass,
-            attrs:otherAttrs,
-            bodyContent:text,
-            classes:classes
+                thClass: thClass,
+                attrs: otherAttrs,
+                bodyContent: text,
+                classes: classes
         ])
     }
 
     def logo = { attrs ->
-        def args = [applicationName:grailsApplication.metadata['app.name']]
+        def args = [applicationName: grailsApplication.metadata['app.name']]
         args.classes = attrs.remove('class')
         args.logoClass = grailsUISets.getUICSSClass(request, 'logo', 'logo')
         def w = attrs.width
@@ -835,14 +834,14 @@ class UITagLib implements InitializingBean {
 
         def carouselBodiesBuffer = []
         // collect up the bodies
-        def bodyContent = body(_ui_carouselBodies:carouselBodiesBuffer)
+        def bodyContent = body(_ui_carouselBodies: carouselBodiesBuffer)
         // Output the list of tabs
         out << renderUITemplate('carousel', [
-            id:attrs.id ?: TagLibUtils.newUniqueId(request),
-            attrs:attrs,
-            classes:classes,
-            carouselClass:carouselClass,
-            slides:carouselBodiesBuffer
+                id: attrs.id ?: TagLibUtils.newUniqueId(request),
+                attrs: attrs,
+                classes: classes,
+                carouselClass: carouselClass,
+                slides: carouselBodiesBuffer
         ])
     }
 
@@ -860,17 +859,17 @@ class UITagLib implements InitializingBean {
         def slideId = attrs.slideId != null ? attrs.slideId : TagLibUtils.newUniqueId(request)
 
         def bodyPanelArgs = [
-            id:slideId,
-            active:active
+                id: slideId,
+                active: active
         ]
 
         bodyPanelArgs.bodyContent = renderUITemplate('slide', [
-            id:slideId,
-            classes:classes,
-            attrs:attrs,
-            active:active,
-            slideClass:slideClass,
-            bodyContent: body()
+                id: slideId,
+                classes: classes,
+                attrs: attrs,
+                active: active,
+                slideClass: slideClass,
+                bodyContent: body()
         ])
 
         buffer << bodyPanelArgs
@@ -884,9 +883,9 @@ class UITagLib implements InitializingBean {
         def textFromCode
         if (textCode) {
             if (textCode.startsWith('plugin.')) {
-                textFromCode = g.message(code:textCode, args:textCodeArgs)
+                textFromCode = g.message(code: textCode, args: textCodeArgs)
             } else {
-                textFromCode = p.text(code:textCode, args:textCodeArgs).toString()
+                textFromCode = p.text(code: textCode, args: textCodeArgs).toString()
             }
         }
         if (textFromCode) {
