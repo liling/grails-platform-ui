@@ -1,5 +1,6 @@
 /* Copyright 2011-2012 the original author or authors:
  *
+ *    Dean Del Ponte (dean.delponte@gmail.com)
  *    Marc Palmer (marc@grailsrocks.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -44,7 +45,7 @@ class PlatformUiGrailsPlugin {
 
     def loadAfter = ['platformCore', 'logging']
 
-    def documentation = "http://grailsrocks.github.com/grails-platform-ui"
+    def documentation = "http://platform-ui.org/doc/latest/"
 
     def license = "APACHE"
 

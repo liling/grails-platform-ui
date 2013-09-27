@@ -57,7 +57,7 @@ class UITagLib implements InitializingBean {
     }
 
     private renderResources() {
-        if (pluginRequestAttributes['uiset.loaded']) {
+        if (getActivePluginRequestAttributes('uiset.loaded')) {
             return
         }
 
@@ -73,21 +73,21 @@ class UITagLib implements InitializingBean {
 
     def ifSetActive = { attrs, body ->
         renderResources()
-        if (pluginRequestAttributes['uiset.candidates']?.name?.contains(attrs.name)) {
+        if (getActivePluginRequestAttributes('uiset.candidates')?.name?.contains(attrs.name)) {
             out << body()
         }
     }
 
     def ifSetNotActive = { attrs, body ->
         renderResources()
-        if (!pluginRequestAttributes['uiset.candidates']?.name?.contains(attrs.name)) {
+        if (!getActivePluginRequestAttributes('uiset.candidates')?.name?.contains(attrs.name)) {
             out << body()
         }
     }
 
     def activeSets = { attrs ->
         renderResources()
-        return pluginRequestAttributes['uiset.candidates']
+        return getActivePluginRequestAttributes('uiset.candidates')
     }
 
     /**
@@ -608,7 +608,7 @@ class UITagLib implements InitializingBean {
     }
 
     def fieldLabel = { attrs, body ->
-        def args = pluginRequestAttributes['field_custom_args']
+        def args = getActivePluginRequestAttributes('field_custom_args')
         if (args == null) {
             throwTagError "[ui:fieldLabel] can only be called inside a [ui:field] with custome=\"true\""
         }
@@ -616,7 +616,7 @@ class UITagLib implements InitializingBean {
     }
 
     def fieldInput = { attrs, body ->
-        def args = pluginRequestAttributes['field_custom_args']
+        def args = getActivePluginRequestAttributes('field_custom_args')
         if (args == null) {
             throwTagError "[ui:fieldInput] can only be called inside a [ui:field] with custome=\"true\""
         }
@@ -624,7 +624,7 @@ class UITagLib implements InitializingBean {
     }
 
     def fieldErrors = { attrs, body ->
-        def args = pluginRequestAttributes['field_custom_args']
+        def args = getActivePluginRequestAttributes('field_custom_args')
         if (args == null) {
             throwTagError "[ui:fieldErrors] can only be called inside a [ui:field] with custome=\"true\""
         }
@@ -632,7 +632,7 @@ class UITagLib implements InitializingBean {
     }
 
     def fieldHint = { attrs, body ->
-        def args = pluginRequestAttributes['field_custom_args']
+        def args = getActivePluginRequestAttributes('field_custom_args')
         if (args == null) {
             throwTagError "[ui:fieldHint] can only be called inside a [ui:field] with custome=\"true\""
         }
@@ -953,6 +953,17 @@ class UITagLib implements InitializingBean {
             logosBySize[key] = logoUri
         }
         return logoUri
+    }
+
+    /**
+     * This method was introduced solely to facilitate mocking in unit tests.
+     * @param key
+     * @return the request attribute value as defined within the pluginRequestAttributes instance
+     */
+    private getActivePluginRequestAttributes(String key) {
+
+        return pluginRequestAttributes[key]
+
     }
 
 /* Some experimental stuff that probably doesn't belong here

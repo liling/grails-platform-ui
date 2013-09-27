@@ -29,6 +29,7 @@ target(createPlatformUiTestApp: 'Creates test apps for manual testing') {
         init name, config
         createApp()
         installPlugins()
+        copyTests()
     }
 }
 
@@ -58,6 +59,7 @@ private void init(String name, config) {
 
     dependencies = config.dependencies
     plugins = config.plugins
+
 }
 
 private void createApp() {
@@ -82,7 +84,7 @@ private void installPlugins() {
     contents = contents.replace('grails.project.test.reports.dir = "target/test-reports"', '')
     contents = contents.replace("//mavenLocal()", "mavenLocal()")
     contents = contents.replace('plugins {', 'plugins {\n        compile ":platform-ui:' + pluginVersion + '"\n        compile ":bootstrap-ui:1.0.RC4"\n' + plugins)
-    contents = contents.replace('dependencies {', 'dependencies { ' + dependencies )
+    contents = contents.replace('dependencies {', 'dependencies { ' + dependencies)
     buildConfig.withWriter { it.writeLine contents }
 
 //	callGrails(grailsHome, testprojectRoot, 'dev', 'install-plugin') {
@@ -90,16 +92,32 @@ private void installPlugins() {
 //	}
 }
 
+private void copyTests() {
+
+    def targetTestDir = "${projectDir}/${appName}/test"
+    printMessage "Copying tests to $targetTestDir"
+
+    ant.copy(todir: "$targetTestDir") {
+
+        fileset(dir: "test", includes: "**")
+
+    }
+
+}
+
 private void callGrails(String grailsHome, String dir, String env, String action, extraArgs = null) {
+
     ant.exec(executable: "$grailsHome/bin/grails", dir: dir, failonerror: 'true') {
         ant.env key: 'GRAILS_HOME', value: grailsHome
         ant.arg value: env
         ant.arg value: action
         extraArgs?.call()
     }
+
 }
 
 private void deleteDir(String path) {
+
     if (new File(path).exists() && !deleteAll) {
         String code = "confirm.delete.$path"
         ant.input message: "$path exists, ok to delete?", addproperty: code, validargs: 'y,n,a'
@@ -113,11 +131,14 @@ private void deleteDir(String path) {
     }
 
     ant.delete dir: path
+
 }
 
 private void error(String message) {
+
     errorMessage "\nERROR: $message"
     exit 1
+
 }
 
 setDefaultTarget 'createPlatformUiTestApp'
