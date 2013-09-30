@@ -98,7 +98,7 @@ class ThemeTagLib {
         return null
     }
 
-    private boolean isDebugMode() {
+    private boolean isDebugModeOn() {
         pluginRequestAttributes['theme.debug.mode']
     }
 
@@ -131,7 +131,7 @@ class ThemeTagLib {
             throwTagError "Tag [theme:layoutZone] requires a [name] attribute containing the name of the zone to render"
         }
 
-        if (debugMode) {
+        if (isDebugModeOn()) {
             out << "<!-- BEGIN Content from theme zone ${id} -->\n"
         }
 
@@ -147,29 +147,29 @@ class ThemeTagLib {
 
             // First see if the application provides default content for this zone (e.g. a footer or social panel)
             if (grailsViewFinder.templateExists(templatePath)) {
-                if (debugMode) {
+                if (isDebugModeOn()) {
                     out << "<!-- Content defined by Theme's default template (${templatePath}) for this zone ${id} -->\n"
                 }
                 out << g.render(template:templatePath)
             } else {
-                if (debugMode) {
+                if (isDebugModeOn()) {
                     out << "<!-- Content defined by defaultContent tag for this zone ${id} -->\n"
                 }
                 out << theme.defaultContent([zone:id])
-                if (!debugMode) {
+                if (!isDebugModeOn()) {
                     if (log.warnEnabled) {
                         log.warn "Could not layout zone [$id], there is no content for it from the GSP page, and no application template at ${templatePath}"
                     }
                 }
             }
         } else {
-            if (debugMode) {
+            if (isDebugModeOn()) {
                 out << "<!-- Content defined by GSP for this zone ${id} -->\n"
             }
             def bufferedZone = g.pageProperty(name:"page.theme.zone."+id)
             out << bufferedZone
         }
-        if (debugMode) {
+        if (isDebugModeOn()) {
             out << "<!-- END Content from theme zone ${id} -->\n"
         }
     }
@@ -317,7 +317,7 @@ class ThemeTagLib {
             bodyAttrsStr = HTMLTagLib.attrsToString(bodyAttrsMap)
         }
         out << "<body${bodyAttrsStr}>"
-        if (debugMode) {
+        if (isDebugModeOn()) {
             // We need the body of the debug GSP as it has the panel in it
             // @todo we can probably ditch this layoutBody if theme previewer concats to "body" zone
             out << g.layoutBody()
