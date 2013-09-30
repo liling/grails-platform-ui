@@ -1,4 +1,4 @@
-String version = '1.0.RC5-SNAPSHOT'
+String version = '1.0.RC5'
 String grailsHomeRoot = '/path/to/your/grails/home'
 String dotGrailsCommon = '/path/to/.grails/in/your/home/directory'
 String projectDirCommon = '/path/to/target/directory/of/test/apps'
