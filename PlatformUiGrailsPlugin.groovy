@@ -22,8 +22,8 @@ import org.grails.plugin.platform.views.Grails13ViewFinder
 import org.springframework.core.io.FileSystemResource
 
 class PlatformUiGrailsPlugin {
-    def version = "1.0.RC5"
-    def grailsVersion = "1.3 > *"
+    def version = "1.0.RC6"
+    def grailsVersion = "2.0 > *"
 
     def pluginExcludes = [
             "grails-app/conf/TestResources.groovy",

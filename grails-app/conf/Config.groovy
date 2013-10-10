@@ -14,4 +14,5 @@ grails.doc.css = new File('src/docs/css')
 grails.doc.authors = "Dean Del Ponte (dean.delponte@gmail.com), Marc Palmer (marc@grailsrocks.com)"
 grails.doc.license = "ASL 2"
 grails.doc.copyright = "2013 Marc Palmer & Dean Del Ponte"
-grails.doc.footer = "Please contact the authors with any corrections or suggestions"
+grails.doc.footer = "Please contact the authors with any corrections or suggestions"grails.views.default.codec="none" // none, html, base64
+grails.views.gsp.encoding="UTF-8"
