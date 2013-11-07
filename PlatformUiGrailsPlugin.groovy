@@ -19,10 +19,11 @@
 import org.grails.plugin.platform.themes.Themes
 import org.grails.plugin.platform.ui.UISets
 import org.grails.plugin.platform.views.Grails13ViewFinder
+import org.springframework.beans.factory.config.PropertiesFactoryBean
 import org.springframework.core.io.FileSystemResource
 
 class PlatformUiGrailsPlugin {
-    def version = "1.0.RC6"
+    def version = "1.0.RC6-SNAPSHOT"
     def grailsVersion = "2.0 > *"
 
     def pluginExcludes = [
@@ -71,7 +72,7 @@ class PlatformUiGrailsPlugin {
             pluginManager = ref('pluginManager')
 
             if (application.warDeployed) {
-                precompiledGspMap = {
+                precompiledGspMap = { PropertiesFactoryBean pfb ->
                     ignoreResourceNotFound = true
                     location = "classpath:gsp/views.properties"
                 }
