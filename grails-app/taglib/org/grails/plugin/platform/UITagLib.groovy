@@ -702,7 +702,7 @@ class UITagLib implements InitializingBean {
             }
             if (labelCode != null) {
                 def labelArgs = attrs.remove('labelArgs')
-                label = p.text(code: labelCode ?: "field.label.${i18nname}", default: labelCode, args: labelArgs).toString()
+                label = p.text(code: labelCode ?: "field.label.${i18name}", default: labelCode, args: labelArgs).toString()
             }
         }
 
