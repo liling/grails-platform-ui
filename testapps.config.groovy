@@ -1,7 +1,7 @@
-String version = 'Version #'
-String grailsHomeRoot = '/path/to/your/grails/home'
-String dotGrailsCommon = '/path/to/.grails/in/your/home/directory'
-String projectDirCommon = '/path/to/target/directory/of/test/apps'
+String version = '1.0.RC7'
+String grailsHomeRoot = '/Users/deandelponte/.gvm/grails'
+String dotGrailsCommon = '/Users/deandelponte/.grails'
+String projectDirCommon = '/Users/deandelponte/code/testapps/platform-ui'
 
 v20 {
     grailsVersion = '2.0.4'
@@ -36,7 +36,7 @@ v22 {
 }
 
 v23 {
-    grailsVersion = '2.3.1'
+    grailsVersion = '2.3.5'
     pluginVersion = version
     dotGrails = dotGrailsCommon
     projectDir = projectDirCommon
