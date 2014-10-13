@@ -19,6 +19,7 @@ package org.grails.plugin.platform
 import org.codehaus.groovy.grails.web.sitemesh.GSPSitemeshPage
 import org.codehaus.groovy.grails.web.sitemesh.GrailsPageFilter
 import org.grails.plugin.platform.themes.Themes
+import org.grails.plugin.platform.util.TagLibUtils
 
 class ThemeTagLib {
     static namespace = "theme"
