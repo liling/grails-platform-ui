@@ -17,6 +17,7 @@ grails.project.dependency.resolution = {
         }
 
         test "org.spockframework:spock-grails-support:0.7-groovy-2.0"
+        compile 'org.springframework:spring-aop:4.0.5.RELEASE'
     }
 
     plugins {
@@ -24,12 +25,7 @@ grails.project.dependency.resolution = {
             export = false
         }
 
-        compile(":hibernate:$grailsVersion") {
-            export = false
-        }
-
-        compile ':platform-core:1.0.RC5'
-        runtime ":resources:1.2.RC2"
+        compile ':platform-core:1.0.0'
 
         test(":spock:0.7") {
             exclude "spock-grails-support"

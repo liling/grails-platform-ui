@@ -18,7 +18,7 @@ package org.grails.plugin.platform.themes
 
 import org.codehaus.groovy.grails.plugins.GrailsPlugin
 import org.codehaus.groovy.grails.web.pages.FastStringWriter
-import org.codehaus.groovy.grails.web.sitemesh.GrailsPageFilter
+import org.codehaus.groovy.grails.web.sitemesh.GrailsLayoutView
 import org.codehaus.groovy.grails.web.util.GrailsPrintWriter
 import org.codehaus.groovy.grails.web.util.StreamCharBuffer
 import org.grails.plugin.platform.ui.UISets
@@ -380,7 +380,7 @@ class Themes implements InitializingBean {
 
 */
     protected getPage(request) {
-        return request[GrailsPageFilter.GSP_SITEMESH_PAGE]
+        return request[GrailsLayoutView.GSP_SITEMESH_PAGE]
     }
 
     protected wrapContentInBuffer(content) {
