@@ -62,11 +62,16 @@ class UITagLib implements InitializingBean {
         }
 
         def uiSets = grailsUISets.getUISetsToUse(request)
-        def uiModules = []
-        for (ui in uiSets) {
-            uiModules << "ui.${ui.name}"
-        }
-        out << r.require(modules: uiModules, strict: false)
+//        def uiModules = []
+//        for (ui in uiSets) {
+//            if (!uiModules.contains(ui)) uiModules << ui
+//        }
+//        for (ui in uiModules) {
+//            println "ui_${ui.name}"
+//            println asset.stylesheet(href: "ui_${ui.name}")
+//            out << asset.stylesheet(href: "ui_${ui.name}")
+//            out << asset.javascript(src: "ui_${ui.name}")
+//        }
         pluginRequestAttributes['uiset.candidates'] = uiSets
         pluginRequestAttributes['uiset.loaded'] = true
     }

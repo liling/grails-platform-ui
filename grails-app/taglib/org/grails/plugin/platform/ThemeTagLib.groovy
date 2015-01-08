@@ -30,6 +30,7 @@ class ThemeTagLib {
     static returnObjectForTags = ['name', 'current', 'listThemes']
 
     def grailsThemes
+    def grailsUISets
     def grailsViewFinder
     def servletContext
 
@@ -233,11 +234,30 @@ class ThemeTagLib {
         if (log.debugEnabled) {
             log.debug "theme:resources Writing out resources"
         }
+
         def themeModules = []
         def theme = grailsThemes.getRequestTheme(request)
-        out << r.require(modules:"theme.${theme.name}", strict:false) // @todo fix this
+        //out << r.require(modules:"theme.${theme.name}", strict:false) // @todo fix this
+        out << asset.stylesheet(href: "theme_${theme.name}_front")
+        out << asset.javascript(src: "theme_${theme.name}_front")
+
+        def uiSets = grailsUISets.getUISetsToUse(request)
+        def uiModules = []
+        for (ui in uiSets) {
+            if (!uiModules.contains(ui)) uiModules << ui
+        }
+        for (ui in uiModules) {
+            out << asset.stylesheet(href: "ui_${ui.name}")
+            out << asset.javascript(src: "ui_${ui.name}")
+        }
+
+        out << asset.stylesheet(href: "theme_${theme.name}")
+        out << asset.javascript(src: "theme_${theme.name}")
         def style = grailsThemes.getRequestStyle(request)
-        out << r.require(modules:["theme.${theme.name}.${style}", "app.theme.${theme.name}", "app.theme.${theme.name}.${style}"], strict:false)
+        //out << r.require(modules:["theme.${theme.name}.${style}", "app.theme.${theme.name}", "app.theme.${theme.name}.${style}"], strict:false)
+        out << asset.stylesheet(href: "theme_${theme.name}_${style}")
+        out << asset.stylesheet(href: "app_theme_${theme.name}")
+        out << asset.stylesheet(href: "app_theme_${theme.name}_${style}")
         // Write out the resources for the UI Set we are using, otherwise it will be too late if the lazy init does it in body
         out << ui.resources()
     }
@@ -296,8 +316,8 @@ class ThemeTagLib {
         out << tagBody()
         out << g.layoutHead()
 
-        def resourceLinks = r.layoutResources()
-        out << resourceLinks
+        //def resourceLinks = r.layoutResources()
+        //out << resourceLinks
 
         out << """</head>"""
     }
@@ -324,7 +344,7 @@ class ThemeTagLib {
             out << g.layoutBody()
         }
         out << tagBody()
-        out << r.layoutResources()
+        //out << r.layoutResources()
         out << """</body>"""
     }
 
