@@ -23,8 +23,8 @@ import org.springframework.beans.factory.config.PropertiesFactoryBean
 import org.springframework.core.io.FileSystemResource
 
 class PlatformUiGrailsPlugin {
-    def version = "1.0.RC7"
-    def grailsVersion = "2.0 > *"
+    def version = "1.0.RC7c"
+    def grailsVersion = "2.4 > *"
 
     def pluginExcludes = [
             "grails-app/conf/TestResources.groovy",
